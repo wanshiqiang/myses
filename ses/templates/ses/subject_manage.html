@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <title>课程管理</title>
+  <script src="/static/js/jquery-3.2.1.min.js"></script>
+  <script src="/static/js/jquery-migrate-3.0.0.js"></script>
+  <script src="/static/js/panelSubject.ui.js"></script>
+  <script>
+        $(document).ready(function(){
+
+            $('#scoreRuleID').change(function(){
+                var scoreRuleID=$(this).children('option:selected').val();//这就是selected的值
+                var selectSubID = $("#selectSub").val();
+                //window.location.href="xx.php?param1="+p1+"¶m2="+p2+"";//页面跳转并传参
+                $.ajax({
+                    url : encodeURI("/ses/getNotClaSubByScoreRule?scoreRuleID="+scoreRuleID+"&selectSubID="+selectSubID),
+                    type : 'GET',
+                    dataType : "json",
+                    success : function(outputClassroomList) {
+                        var selectCla =$(document).find("#selectCla");
+                        selectCla.empty();
+
+                        //不需要解析就可以使用了
+                        $.each(outputClassroomList, function(idx, obj) {
+                            //alert(obj.scoreRule__title);
+                            //selectScoreRule.append("<option value='"+obj.scoreRule__id+"'>"+ obj.scoreRule__title+ "</option>");
+                            if (obj.isHas==1){
+                                selectCla.append("<input type='checkbox' name='selectedClassroomIDList' value='"+obj.id+"' checked='checked' DISABLED/>"+obj.name);
+                            }else{
+                                selectCla.append("<input type='checkbox' name='selectedClassroomIDList' value='"+obj.id+"' />"+obj.name);
+                            }
+
+
+                        });
+
+                    }
+                });
+            });
+            $('#selectSub').change(function(){
+                var scoreRuleID=$("#scoreRuleID").val();
+                var selectSubID = $("#selectSub").val();
+                //window.location.href="xx.php?param1="+p1+"¶m2="+p2+"";//页面跳转并传参
+                $.ajax({
+                    url : encodeURI("/ses/getNotClaSubByScoreRule?scoreRuleID="+scoreRuleID+"&selectSubID="+selectSubID),
+                    type : 'GET',
+                    dataType : "json",
+                    success : function(outputClassroomList) {
+                        var selectCla =$(document).find("#selectCla");
+                        selectCla.empty();
+
+                        //不需要解析就可以使用了
+                        $.each(outputClassroomList, function(idx, obj) {
+                            //alert(obj.scoreRule__title);
+                            //selectScoreRule.append("<option value='"+obj.scoreRule__id+"'>"+ obj.scoreRule__title+ "</option>");
+                            if (obj.isHas==1){
+                                selectCla.append("<input type='checkbox' name='selectedClassroomIDList' value='"+obj.id+"' checked='checked' DISABLED/>"+obj.name);
+                            }else{
+                                selectCla.append("<input type='checkbox' name='selectedClassroomIDList' value='"+obj.id+"' />"+obj.name);
+                            }
+
+
+                        });
+
+                    }
+                });
+            });
+            $('#scoreRuleID').trigger('change');
+            $('#selectSub').trigger('change');
+
+            $(".deleteButton").click(function(){
+                var subjectID = $(this).prev().prev().prev().text();
+                var classroomID = $(this).prev().prev().text();
+                var scoreRuleID = $(this).prev().text();
+                //alert(subjectID+":"+classroomID+":"+scoreRuleID);
+                if(confirm("确定删除?")){
+ 　　            //点击确定后操作
+                    window.location.replace("/ses/deleteScore/?subjectID="+subjectID+"&classroomID="+classroomID+"&scoreRuleID="+scoreRuleID);
+                }
+            });
+
+        });
+  </script>
+
+
+  <style type="text/css">
+    .panelcontainer{
+      clear:both;
+      position:relative;
+      top:30px;
+      width:792px;
+      display:block;
+      margin:0 auto;
+
+    }
+  </style>
+  <link href="/static/css/my_table_css.css" rel="stylesheet">
+
+</head>
+
+<body>
+  {% include "ses/top_navigation.html"%}
+  <div class="panelcontainer">
+    <nav class="subnav tabs">
+          <ul>
+            <li  class="active"><a id="p1" href="#panel-1">我的评价</a></li>
+            <li><a id="p2" href="#panel-2">分配评价</a></li>
+            <li><a id="p3" href="#panel-3">添加评价</a></li>
+            <li><a id="p4" href="#panel-4">我的班级</a></li>
+            <li><a id="p5" href="#panel-5">我的课程</a></li>
+          </ul>
+    </nav>
+    <div class="panels">
+        <div class="panel clearfix" id="panel-1">
+            <div class="table">
+                <h2 class="table-caption">课程评价表</h2>
+                <div class="table-column-group">
+                    <div class="table-column"></div>
+                    <div class="table-column"></div>
+                    <div class="table-column"></div>
+                    <div class="table-column"></div>
+                    <div class="table-column"></div>
+                    <div class="table-column"></div>
+                </div>
+                <div class="table-header-group">
+                    <ul class="table-row">
+                        <div class="table-cell">学科</div>
+                        <div class="table-cell">班级</div>
+                        <div class="table-cell">评价指标</div>
+                        <div class="table-cell">是否计入总分</div>
+                        <div class="table-cell">评价维度</div>
+                        <div class="table-cell">操作</div>
+                    </ul>
+                </div>
+                <div class="table-row-group">
+                    {% for titleItem in titleList%}
+                        <ul class="table-row">
+                            <li class="table-cell">{{titleItem.subject__name}}</li>
+                            <li class="table-cell">{{titleItem.student__classroom__name}}</li>
+                            <li class="table-cell">{{titleItem.scoreRule__title}}</li>
+                            {% ifequal titleItem.scoreRule__isCount 1 %}
+                                <li class="table-cell">是</li>
+                            {% else %}
+                                <li class="table-cell">否</li>
+                            {% endifequal %}
+                            <li class="table-cell">{{titleItem.scoreRule__topTitle__name}}</li>
+                            <li style="display:none;">{{titleItem.subject__id}}</li>
+                            <li style="display:none;">{{titleItem.student__classroom__id}}</li>
+                            <li style="display:none;">{{titleItem.scoreRule__id}}</li>
+                            <li style="color:red;" class="table-cell deleteButton">删除</li>
+                        </ul>
+                    {% endfor %}
+                 </div>
+            </div>
+        </div>
+        <div class="panel clearfix" id="panel-2">
+
+                <form id="addScore_form" action="/ses/giveScoreRule" method="get">
+                    <div class="table">
+                        <div class="table-column-group">
+                            <div class="table-column"></div>
+                            <div class="table-column"></div>
+                        </div>
+                        <div class="table-row-group">
+                            <ul class="table-row">
+                                <div class="table-cell">评价规则</div>
+                                <div class="table-cell">
+                                    <!--<input type="text" name="scoreRule">-->
+                                    <select name="scoreRuleID" id="scoreRuleID">
+                                        {% for scoreRule in scoreRuleList%}
+                                            <OPTION VALUE={{scoreRule.id}}>{{scoreRule.title}}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </ul>
+                        </div>
+                        <div class="table-row-group">
+                            <ul class="table-row">
+                                <div class="table-cell">学科</div>
+                                <div class="table-cell">
+                                    <select name="selectSub" id="selectSub">
+                                        {% for subject in subjects%}
+                                            <OPTION VALUE={{subject.id}}>{{subject.name}}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </ul>
+                        </div>
+                        <div class="table-row-group">
+                            <ul class="table-row">
+                                <div class="table-cell">班级</div>
+                                <div class="table-cell" id="selectCla">
+                                    <!--<select name="selectCla" id="selectCla">-->
+                                        <!--{% for classroom in classrooms%}-->
+                                            <!--<OPTION VALUE={{classroom.id}}>{{classroom.name}}-->
+                                        <!--{% endfor %}-->
+                                    <!--</select>-->
+
+                                </div>
+                            </ul>
+                        </div>
+
+                        <!--<div class="table-row-group">-->
+                            <!--<ul class="table-row">-->
+                                <!--<div class="table-cell">评价名称</div>-->
+                                <!--<div class="table-cell">-->
+                                    <!--<input type="text" name="title">-->
+                                <!--</div>-->
+                            <!--</ul>-->
+                        <!--</div>-->
+                        <div class="table-row-group">
+                            <ul class="table-row">
+                                <div class="table-cell">起始分数</div>
+                                <div class="table-cell">
+                                    <input type="text" name="score">
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                    <input type="submit" value="分配评价">
+                    <input type="reset" value="重置">
+                </form>
+          </div>
+        <div class="panel clearfix" id="panel-3">
+                <form id="addScoreRule_form" action="/ses/addScoreRule" method="get">
+                    <div class="table">
+                        <div class="table-column-group">
+                            <div class="table-column"></div>
+                            <div class="table-column"></div>
+                        </div>
+                        <div class="table-row-group">
+                            <ul class="table-row">
+                                <div class="table-cell">评价名称</div>
+                                <div class="table-cell">
+                                    <input type="text" name="title">
+                                </div>
+                            </ul>
+                        </div>
+                        <div class="table-row-group">
+                            <ul class="table-row">
+                                <div class="table-cell">评价维度</div>
+                                <div class="table-cell">
+                                    <select name="scoreTopTitle">
+                                        {% for scoreTopTitle in scoreTopTitleList%}
+                                            <OPTION VALUE={{scoreTopTitle.id}}>{{scoreTopTitle.name}}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </ul>
+                        </div>
+                        <div class="table-row-group">
+                            <ul class="table-row">
+                                <div class="table-cell">是否计入总分</div>
+                                <div class="table-cell">
+                                    <input type="radio" name="iscount" value="1" checked>是
+                                    <input type="radio" name="iscount" value="0">否
+                                </div>
+                            </ul>
+                        </div>
+                        <div class="table-row-group">
+                            <ul class="table-row">
+                                <div class="table-cell">学科</div>
+                                <div class="table-cell">
+                                    {% for subject in subjects%}
+                                    <input type="checkbox" name="selectedSubjectIDList" value={{subject.id}} checked="checked" /> {{subject.name}}
+                                    {% endfor %}
+                                </div>
+                            </ul>
+                        </div>
+                        <div class="table-row-group">
+                            <ul class="table-row">
+                                <div class="table-cell">班级</div>
+                                <div class="table-cell">
+                                    {% for classroom in classrooms%}
+                                    <input type="checkbox" name="selectedClassroomIDList" value={{classroom.id}} checked="checked" /> {{classroom.name}}
+                                    {% endfor %}
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                    <input type="submit" value="添加评价">
+                    <input type="reset" value="重置">
+                </form>
+          </div>
+        <div class="panel clearfix" id="panel-4">
+            <div class="table-responsive">
+                <table class="table">
+                    <p3><strong>我的班级</strong></p3>
+                    <tr>
+                        <td>班级编号</td>
+                        <td>班级名称</td>
+                        <td>操作</td>
+                    </tr>
+                    {% for classroom in classrooms%}
+                    <tr>
+                        <td>{{classroom.id}}</td>
+                        <td>{{classroom.name}}</td>
+                        <td>删除</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="table-responsive">
+                <table class="table">
+                    <p3><strong>添加班级</strong></p3><br />
+                    未添加的班级
+                    <from action="/ses/addClassroom" method="get">
+                        <select name="selectCla">
+                        {% for classroom in withoutClassroomList%}
+                            <OPTION VALUE={{classroom.id}}>{{classroom.name}}</OPTION>
+                        {% endfor %}
+                        </select>
+                        <!--<input type="hidden" name="whichPanel" value="p4">-->
+                        <input type="submit" value="添加班级">
+                    </from>
+                </table>
+            </div>
+
+        </div>
+        <div class="panel clearfix" id="panel-5">
+            <div class="table-responsive">
+                <table class="table">
+                    我的课程
+                    <tr>
+                        <td>课程编号</td>
+                        <td>课程名称</td>
+                        <td>操作</td>
+                    </tr>
+                    {% for subject in subjects%}
+                    <tr>
+                        <td>{{subject.id}}</td>
+                        <td>{{subject.name}}</td>
+                        <td>删除</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <input id="myhidden" type="hidden" value={{whichPanel}}>
+  </div>
+
+
+
+
+
+</body>
+
+</html>
