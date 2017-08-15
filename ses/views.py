@@ -39,7 +39,6 @@ def index(request):
 
     courses = models.Course.objects.filter(teacher__name=username)
 
-
     classrooms = []
     subjects = []
     for course in courses:
@@ -48,8 +47,7 @@ def index(request):
         if course.subject not in subjects:
             subjects.append(course.subject)
 
-
-    print '========================================',classrooms,subjects
+    print '========================================', classrooms, subjects
 
     selectedClassID = 0
     selectedSubjectID = 0
@@ -60,7 +58,6 @@ def index(request):
     if subjects:
         selectedSubjectID = subjects[0].id
 
-
     if 'selectCla' in request.GET:
         # selectedClassID = request.GET['selectCla'].encode('utf-8')
         selectedClassID = int(request.GET['selectCla'].encode('utf-8'))
@@ -70,15 +67,14 @@ def index(request):
         # selectedSubjectID = request.GET['selectSub'].encode('utf-8')
         selectedSubjectID = int(request.GET['selectSub'].encode('utf-8'))
 
-
-
     # print selectedSubjectName.decode('utf-8')
     # print selectedClassName.decode('utf-8')
     print selectedClassID
     print selectedSubjectID
 
     # scoreRules = models.ScoreRule.objects.filter(topTitle__type=0)
-    scoreRules = models.Score.objects.values_list('scoreRule__id','scoreRule__title').filter(subject__id=selectedSubjectID,student__classroom__id=selectedClassID,scoreRule__topTitle__type=0).distinct()
+    scoreRules = models.Score.objects.values_list('scoreRule__id', 'scoreRule__title').filter(
+        subject__id=selectedSubjectID, student__classroom__id=selectedClassID, scoreRule__topTitle__type=0).distinct()
 
     # titleList = models.Score.objects.values_list('student__classroom', 'student__classroom__name', 'scoreRule__title',
     #                                              'scoreRule__isCount', 'scoreRule__topTitle__name').distinct().order_by(
@@ -102,20 +98,23 @@ def index(request):
 
     # selectedScoreTopScore = models.ScoreTopTitle.objects.get(id=selectedScoreRuleID)
 
-    seats = models.Seat.objects.filter(subject__id=selectedSubjectID, student__classroom__id=selectedClassID).order_by("seatNo")
+    seats = models.Seat.objects.filter(subject__id=selectedSubjectID, student__classroom__id=selectedClassID).order_by(
+        "seatNo")
     # scores = models.Score.objects.filter(subject=selectedSubject,student__classroom=selectedClassroom,scoreRule__topTitle=selectedScoreTopScore).order_by("student__id")
-    scores = models.Score.objects.filter(subject__id=selectedSubjectID,student__classroom__id=selectedClassID,scoreRule__id=selectedScoreRuleID).order_by("student__id")
+    scores = models.Score.objects.filter(subject__id=selectedSubjectID, student__classroom__id=selectedClassID,
+                                         scoreRule__id=selectedScoreRuleID).order_by("student__id")
 
     # students = models.Course.objects.get(classroom=selectedClassroom)
     print seats
     # students = selectedClassroom.student_set.all()
-    students = models.Student.objects.filter(classroom__id= selectedClassID)
+    students = models.Student.objects.filter(classroom__id=selectedClassID)
 
     # return HttpResponse('hello,world')
     return render(request, 'ses/model_clr.html',
                   {'seats': seats, 'classrooms': classrooms, 'subjects': subjects,
                    'selectClassroomID': selectedClassID,
-                   'selectSubjectID': selectedSubjectID,'scores':scores,'scoreRules':scoreRules,'selectedScoreRuleID':selectedScoreRuleID,})
+                   'selectSubjectID': selectedSubjectID, 'scores': scores, 'scoreRules': scoreRules,
+                   'selectedScoreRuleID': selectedScoreRuleID, })
 
 
 def editSeat(request):
@@ -142,7 +141,7 @@ def editSeat(request):
     students = selectedClassroom.student_set.all()
     return render(request, 'ses/edit_seat.html',
                   {'students': students, 'seats': seats, 'selectedClassroom': selectedClassroom,
-                   'selectedSubject':selectedSubject,})
+                   'selectedSubject': selectedSubject, })
 
 
 def changeSeat(request):
@@ -226,13 +225,14 @@ def changeSeat(request):
     # data['message'] = '更新页面吧'
     return HttpResponse(json.dumps(data), content_type="application/json")
 
+
 def editScore(request):
     data = {}
     stuNumber = 0
     selectedClassID = 16
     selectedSubjectID = 7
     type = 1
-    selectScoreRuleID=1
+    selectScoreRuleID = 1
 
     if 'selectCla' in request.GET:
         selectedClassID = int(request.GET['selectCla'].encode('utf-8'))
@@ -254,14 +254,15 @@ def editScore(request):
         scoreType = int(request.GET['type'].encode('utf-8').strip())
         # scoreType = int(request.GET['type'].strip())
 
-    print u'stuNumber,selectedClassID,selectedSubjectID=',stuNumber,selectedClassID,selectedSubjectID
+    print u'stuNumber,selectedClassID,selectedSubjectID=', stuNumber, selectedClassID, selectedSubjectID
 
     # selectedClassroom = models.Classroom.objects.get(id=selectedClassID)
     selectedSubject = models.Subject.objects.get(id=selectedSubjectID)
 
     # student = models.Student.objects.get(number=stuNumber)
 
-    score = models.Score.objects.get(subject=selectedSubject,student__number=stuNumber,scoreRule__id=selectScoreRuleID)
+    score = models.Score.objects.get(subject=selectedSubject, student__number=stuNumber,
+                                     scoreRule__id=selectScoreRuleID)
     print u'score 1 ====', score.score
     if scoreType == 1:
         score.score += 5
@@ -282,10 +283,9 @@ def editScore(request):
     return HttpResponse(json.dumps(data), content_type="application/json")
 
 
-
 class UserForm(forms.Form):
-    username = forms.CharField(label='用户名',max_length=50)
-    password = forms.CharField(label='密码',widget=forms.PasswordInput())
+    username = forms.CharField(label='用户名', max_length=50)
+    password = forms.CharField(label='密码', widget=forms.PasswordInput())
 
 
 def login(request):
@@ -336,9 +336,10 @@ def logout(request):
 
     return HttpResponseRedirect('/ses/login/')
 
+
 def subjectManage(request):
-    username=''
-    whichPanel="#p1"
+    username = ''
+    whichPanel = "#p1"
 
     if "username" not in request.session:
         return render(request, 'ses/login.html', {})
@@ -346,8 +347,7 @@ def subjectManage(request):
         username = request.session["username"]
 
     if 'whichPanel' in request.GET:
-        whichPanel = "#"+request.GET['whichPanel'].encode('utf-8')
-
+        whichPanel = "#" + request.GET['whichPanel'].encode('utf-8')
 
     # classrooms = models.Course.objects.values("classroom").filter(teacher__name=username)
     # print classrooms
@@ -362,32 +362,43 @@ def subjectManage(request):
             subjects.append(course.subject)
     print classrooms
 
-    #查询当前老师账号下的评价Score。
-    #values_list与values类似，只是前者返回元祖，后者是字典列表
+    # 查询当前老师账号下的评价Score。
+    # values_list与values类似，只是前者返回元祖，后者是字典列表
     # titleList = models.Score.objects.values_list('subject__name','student__classroom__name','scoreRule__title','scoreRule__isCount','scoreRule__topTitle__name').distinct().order_by("subject__name","student__classroom","scoreRule__topTitle__name")
-    titleList = models.Score.objects.values('subject__name','student__classroom__name','scoreRule__title','scoreRule__isCount','scoreRule__topTitle__name','subject__id','student__classroom__id','scoreRule__id').filter(scoreRule__createTeacher__name=username).distinct().order_by("subject__name","student__classroom","scoreRule__topTitle__name")
+    titleList = models.Score.objects.values('subject__name', 'student__classroom__name', 'scoreRule__title',
+                                            'scoreRule__isCount', 'scoreRule__topTitle__name', 'subject__id',
+                                            'student__classroom__id', 'scoreRule__id').filter(
+        scoreRule__createTeacher__name=username).distinct().order_by("subject__name", "student__classroom",
+                                                                     "scoreRule__topTitle__name")
     print titleList
 
     # scoreRuleList = models.ScoreRule.objects.all()
-    scoreRuleList = models.ScoreRule.objects.filter(createTeacher__name = username)
-    #待修改，根据创建者来。
+    scoreRuleList = models.ScoreRule.objects.filter(createTeacher__name=username)
+    # 待修改，根据创建者来。
     scoreTopTitleList = models.ScoreTopTitle.objects.all()
 
     allClassroomList = models.Classroom.objects.all();
     allSubjectList = models.Subject.objects.all();
-    #集合取差集
-    withoutClassroomList = list(set(allClassroomList)^set(classrooms))
-    withoutSubjectList= list(set(allSubjectList)^set(subjects))
+    # 集合取差集
+    withoutClassroomList = list(set(allClassroomList) ^ set(classrooms))
+    withoutSubjectList = list(set(allSubjectList) ^ set(subjects))
     # print set(allClassroomList),"===================\n",set(classrooms),"-----------------\n",withoutClassroomList
+    # allGradeList = models.Course.objects.values('classroom__grade').filter(teacher__name=username).distinct()
+    allGradeList = models.Classroom.objects.values('grade').distinct()
+    allSubjectList = models.Subject.objects.all()
 
+    return render(request, 'ses/subject_manage.html',
+                  {"whichPanel": whichPanel, "classrooms": classrooms, 'subjects': subjects, 'titleList': titleList,
+                   'scoreTopTitleList': scoreTopTitleList, 'scoreRuleList': scoreRuleList,
+                   'withoutClassroomList': withoutClassroomList, 'withoutSubjectList': withoutSubjectList,
+                   'courses': courses, 'allGradeList': allGradeList, 'allSubjectList': allSubjectList, })
 
-    return render(request, 'ses/subject_manage.html',{"whichPanel":whichPanel,"classrooms":classrooms,'subjects':subjects,'titleList':titleList,'scoreTopTitleList':scoreTopTitleList,'scoreRuleList':scoreRuleList,'withoutClassroomList':withoutClassroomList,'withoutSubjectList':withoutSubjectList,})
 
 def giveScoreRule(request):
     whichPanel = "p2"
     selectedSubjectID = 0
     titlescore = 0
-    selectedClassroomIDList=[]
+    selectedClassroomIDList = []
 
     if 'selectSub' in request.GET:
         selectedSubjectID = int(request.GET['selectSub'].encode('utf-8'))
@@ -395,14 +406,13 @@ def giveScoreRule(request):
     if 'scoreRuleID' in request.GET:
         scoreRuleID = int(request.GET['scoreRuleID'].encode('utf-8'))
 
-
     if 'score' in request.GET:
         titlescore = int(request.GET['score'].encode('utf-8'))
 
     if 'selectedClassroomIDList' in request.GET:
         selectedClassroomIDList = request.GET.getlist('selectedClassroomIDList')
 
-    print '====================',selectedSubjectID,selectedClassroomIDList,scoreRuleID,titlescore
+    print '====================', selectedSubjectID, selectedClassroomIDList, scoreRuleID, titlescore
 
     # students = models.Student.objects.filter(classroom_id=selectedClassID)
 
@@ -413,9 +423,10 @@ def giveScoreRule(request):
 
     for claID in selectedClassroomIDList:
         students = models.Student.objects.filter(classroom_id=claID)
-        isHasScoreList = models.Score.objects.filter(student__classroom_id=claID, subject__id=selectedSubjectID,scoreRule__id=scoreRuleID)
+        isHasScoreList = models.Score.objects.filter(student__classroom_id=claID, subject__id=selectedSubjectID,
+                                                     scoreRule__id=scoreRuleID)
 
-        if len(isHasScoreList) != 0 :
+        if len(isHasScoreList) != 0:
             return HttpResponse(u"已经存在了")
 
         for student in students:
@@ -426,16 +437,15 @@ def giveScoreRule(request):
             score.scoreRule = scoreRule
             score.score = titlescore
             score.save()
-            print student.number,'---------------------------------------is saved\n'
+            print student.number, '---------------------------------------is saved\n'
 
-    return HttpResponseRedirect('/ses/subjectManage?whichPanel='+whichPanel)
-
+    return HttpResponseRedirect('/ses/subjectManage?whichPanel=' + whichPanel)
 
 
 def addScoreRule(request):
-    title=''
-    scoreTopTitleID=0
-    iscount =0
+    title = ''
+    scoreTopTitleID = 0
+    iscount = 0
     selectedSubjectIDList = []
     selectedClassroomIDList = []
 
@@ -462,13 +472,13 @@ def addScoreRule(request):
 
     print '===============', title, scoreTopTitleID, iscount, selectedSubjectIDList, selectedClassroomIDList
 
-    scoreTopTitle = models.ScoreTopTitle.objects.get(id= scoreTopTitleID)
+    scoreTopTitle = models.ScoreTopTitle.objects.get(id=scoreTopTitleID)
     createTeacher = models.Teacher.objects.get(name=username)
 
     scoreRule = models.ScoreRule()
     scoreRule.title = title
     scoreRule.topTitle = scoreTopTitle
-    scoreRule.isCount =iscount
+    scoreRule.isCount = iscount
     scoreRule.createTeacher = createTeacher
     scoreRule.save()
 
@@ -492,7 +502,7 @@ def scoreListQuery(request):
     subjectID = 0
     classroomID = 0
     scoreList = []
-    titleList = ['姓名',]
+    titleList = ['姓名', ]
     studentScore = []
 
     username = ''
@@ -520,8 +530,6 @@ def scoreListQuery(request):
     if subjects:
         subjectID = subjects[0].id
 
-
-
     if 'selectCla' in request.GET:
         # selectedClassID = request.GET['selectCla'].encode('utf-8')
         classroomID = int(request.GET['selectCla'].encode('utf-8'))
@@ -531,14 +539,15 @@ def scoreListQuery(request):
         # selectedSubjectID = request.GET['selectSub'].encode('utf-8')
         subjectID = int(request.GET['selectSub'].encode('utf-8'))
 
-    print "~~~~~~~~~~~~~~",classroomID,subjectID
+    print "~~~~~~~~~~~~~~", classroomID, subjectID
 
-    scoreQuery = models.Score.objects.filter(subject__id =subjectID,student__classroom_id = classroomID,scoreRule__isCount = 1)
+    scoreQuery = models.Score.objects.filter(subject__id=subjectID, student__classroom_id=classroomID,
+                                             scoreRule__isCount=1)
     # titleList = models.Score.objects.values("title").distinct()
     # titleList = models.Score.objects.values("scoreRule__title").distinct()
-    studentIdList = models.Classroom.objects.filter(id = classroomID).values("student__id")
+    studentIdList = models.Classroom.objects.filter(id=classroomID).values("student__id")
 
-    hasStuID =[]
+    hasStuID = []
     for stuID in studentIdList:
         sumScore = 0
         for score in scoreQuery:
@@ -547,27 +556,28 @@ def scoreListQuery(request):
                     print "------------------"
                     studentScore.append(score.student.name)
                     hasStuID.append(stuID['student__id'])
-                #在移动API中可以返回json格式
+                # 在移动API中可以返回json格式
                 # studentScore.append({score.title:score.score})
                 if score.scoreRule.title not in titleList:
                     titleList.append(score.scoreRule.title)
                 studentScore.append(int(score.score))
-                sumScore= sumScore+int(score.score)
+                sumScore = sumScore + int(score.score)
             else:
                 pass
                 # print "++++++++++++++++++++"
 
-        print '+++++++',studentScore
+        print '+++++++', studentScore
         studentScore.append(sumScore)
         scoreList.append(studentScore)
-        studentScore=[]
+        studentScore = []
 
     # print '======================',scoreQuery
     # print '======================scoreList',scoreList
     titleList.append("总积分")
 
-    return render(request, 'ses/scoreListQuery.html', {'scoreList': scoreList,'titleList':titleList,"classrooms":classrooms,'subjects':subjects,'selectClassroomID':classroomID,'selectSubjectID':subjectID,})
-
+    return render(request, 'ses/scoreListQuery.html',
+                  {'scoreList': scoreList, 'titleList': titleList, "classrooms": classrooms, 'subjects': subjects,
+                   'selectClassroomID': classroomID, 'selectSubjectID': subjectID, })
 
 
 def getScoreRules(request):
@@ -605,28 +615,31 @@ def getNotClaSubByScoreRule(request):
     else:
         username = request.session["username"]
 
-
     if 'scoreRuleID' in request.GET:
         scoreRuleID = int(request.GET['scoreRuleID'].encode('utf-8'))
 
     if 'selectSubID' in request.GET:
         selectSubID = int(request.GET['selectSubID'].encode('utf-8'))
 
-    classroomHasRuleList=models.Score.objects.values('student__classroom__id','student__classroom__name').filter(scoreRule__id=scoreRuleID,subject__id=selectSubID).distinct()
+    classroomHasRuleList = models.Score.objects.values('student__classroom__id', 'student__classroom__name').filter(
+        scoreRule__id=scoreRuleID, subject__id=selectSubID).distinct()
 
-    allclassroomList = models.Course.objects.values('classroom__id','classroom__name').filter(teacher__name=username).distinct()
-    print "---------------",classroomHasRuleList
-    print "++++++++++++++++",allclassroomList
+    allclassroomList = models.Course.objects.values('classroom__id', 'classroom__name').filter(
+        teacher__name=username).distinct()
+    print "---------------", classroomHasRuleList
+    print "++++++++++++++++", allclassroomList
 
-    classroomHasRuleIDList=[]
+    classroomHasRuleIDList = []
     for item in classroomHasRuleList:
         classroomHasRuleIDList.append(item['student__classroom__id'])
 
     for classroom in allclassroomList:
         if classroom['classroom__id'] in classroomHasRuleIDList:
-            outputClassroomList.append({'id':classroom['classroom__id'],'name':classroom['classroom__name'],'isHas':1})
+            outputClassroomList.append(
+                {'id': classroom['classroom__id'], 'name': classroom['classroom__name'], 'isHas': 1})
         else:
-            outputClassroomList.append({'id':classroom['classroom__id'],'name':classroom['classroom__name'],'isHas':0})
+            outputClassroomList.append(
+                {'id': classroom['classroom__id'], 'name': classroom['classroom__name'], 'isHas': 0})
 
     return HttpResponse(json.dumps(list(outputClassroomList)), content_type="application/json")
 
@@ -642,15 +655,17 @@ def deleteScore(request):
     if 'scoreRuleID' in request.GET:
         scoreRuleID = int(request.GET['scoreRuleID'].encode('utf-8'))
 
-    models.Score.objects.filter(subject__id=subjectID,student__classroom__id=classroomID,scoreRule__id=scoreRuleID).delete()
+    models.Score.objects.filter(subject__id=subjectID, student__classroom__id=classroomID,
+                                scoreRule__id=scoreRuleID).delete()
 
     return HttpResponseRedirect('/ses/subjectManage')
+
 
 def sortSeat(request):
     col = 6
     classroomID = 16
     subjectID = 7
-    sortType =2
+    sortType = 2
 
     if 'selectCla' in request.GET:
         classroomID = int(request.GET['selectCla'].encode('utf-8'))
@@ -664,50 +679,50 @@ def sortSeat(request):
     if 'sortType' in request.GET:
         sortType = int(request.GET['sortType'].encode('utf-8'))
 
-
-    seats = models.Seat.objects.filter(subject__id = subjectID,student__classroom__id=classroomID).order_by("student__number")
+    seats = models.Seat.objects.filter(subject__id=subjectID, student__classroom__id=classroomID).order_by(
+        "student__number")
     seatSum = len(seats)
-    print '===================','col=',col,'seatSum=',seatSum
+    print '===================', 'col=', col, 'seatSum=', seatSum
 
-    seatNoList =[]
+    seatNoList = []
     # colList = []
 
 
-    if sortType == 1 :
-        #生成按照每一列排序的座位号
+    if sortType == 1:
+        # 生成按照每一列排序的座位号
         for j in range(int(col)):
-            #多计算1行
+            # 多计算1行
             # for i in range(1,int(seatSum/col+1)):
-            for i in range(int(seatSum/col+1)):
-                seatNo = (i+1-1)*col+j+1
+            for i in range(int(seatSum / col + 1)):
+                seatNo = (i + 1 - 1) * col + j + 1
                 # colList.append(seatNo)
-                if seatNo<=seatSum:
+                if seatNo <= seatSum:
                     seatNoList.append(seatNo)
-            #seatNoList.append(colList)
-            colList=[]
+            # seatNoList.append(colList)
+            colList = []
 
-        for index,seat in enumerate(seats):
+        for index, seat in enumerate(seats):
             seat.seatNo = seatNoList[index]
             seat.save()
 
-    if sortType == 2 :
-        #生成按照每一列排序的座位号
+    if sortType == 2:
+        # 生成按照每一列排序的座位号
         for j in range(int(col)):
-            #多计算1行
+            # 多计算1行
             # for i in range(1,int(seatSum/col+1)):
-            for i in range(int(seatSum/col+1),1-1,-1):
-                seatNo = (i-1)*col+j+1
+            for i in range(int(seatSum / col + 1), 1 - 1, -1):
+                seatNo = (i - 1) * col + j + 1
                 # colList.append(seatNo)
-                if seatNo<=seatSum:
+                if seatNo <= seatSum:
                     seatNoList.append(seatNo)
-            #seatNoList.append(colList)
-            colList=[]
+            # seatNoList.append(colList)
+            colList = []
 
-        for index,seat in enumerate(seats):
+        for index, seat in enumerate(seats):
             seat.seatNo = seatNoList[index]
             seat.save()
 
-    return HttpResponseRedirect("/ses/editSeat/?selectCla="+str(classroomID)+"&selectSub="+str(subjectID))
+    return HttpResponseRedirect("/ses/editSeat/?selectCla=" + str(classroomID) + "&selectSub=" + str(subjectID))
 
 
 def outputScoreListByExcel(request):
@@ -787,14 +802,13 @@ def outputScoreListByExcel(request):
     #     # w.write(excel_row, 3, data_content)
     #     # w.write(excel_row, 4, dada_source)
     #     excel_row += 1
-    for index,title in enumerate(titleList):
+    for index, title in enumerate(titleList):
         w.write(0, index, title)
 
     excel_col = 0
-    for rowIndex,stuScore in enumerate(scoreList):
-        for colIndex,score in enumerate(stuScore):
-            w.write(rowIndex+1,colIndex,score)
-
+    for rowIndex, stuScore in enumerate(scoreList):
+        for colIndex, score in enumerate(stuScore):
+            w.write(rowIndex + 1, colIndex, score)
 
     # sio = StringIO.StringIO()
     sio = StringIO()
@@ -804,15 +818,14 @@ def outputScoreListByExcel(request):
     response['Content-Disposition'] = 'attachment; filename=test.xls'
     response.write(sio.getvalue())
 
-
-
     return response
     # return HttpResponseRedirect("/ses/scoreListQuery")
 
 
 def addClassroom(request):
-    whichPanel = "p4"
-    selectClaID = 0
+    whichPanel = "p5"
+    selectSubID = 0
+    selectedClassroomIDList = []
 
     username = ''
     if "username" not in request.session:
@@ -820,13 +833,64 @@ def addClassroom(request):
     else:
         username = request.session["username"]
 
-    if 'selectCla' in request.GET:
-        selectClaID = int(request.GET['selectCla'].encode('utf-8'))
+    if 'selectSub' in request.GET:
+        selectSubID = int(request.GET['selectSub'].encode('utf-8'))
 
-    hasClassroomList = models.Course.objects.filter()
-    subject = models.Subject.objects.get(id=selectedSubjectID)
-    scoreRule = models.ScoreRule.objects.get(id=scoreRuleID)
+    if 'selectedClassroomIDList' in request.GET:
+        selectedClassroomIDList = request.GET.getlist('selectedClassroomIDList')
+
+    for classroomID in selectedClassroomIDList:
+        isHasClassroomList = models.Course.objects.filter(teacher__name=username, subject__id=selectSubID,
+                                                          classroom__id=classroomID)
+        if isHasClassroomList:
+            return HttpResponse(
+                "班级" + isHasClassroomList[0].classroom.name + '已经添加' + isHasClassroomList[0].subject.name + "课程")
+        else:
+            return HttpResponse("add:添加" + classroomID)
+
+    return HttpResponse("not has classrommidList")
+
+    # subject = models.Subject.objects.get(id=selectedSubjectID)
+    # scoreRule = models.ScoreRule.objects.get(id=scoreRuleID)
 
 
 
-    return HttpResponseRedirect('/ses/subjectManage?whichPanel=' + whichPanel)
+    # return HttpResponseRedirect('/ses/subjectManage?whichPanel=' + whichPanel)
+
+
+def getNotClaBySubGra(request):
+    selectSubID = 0
+    selectGradeID = 0
+    outputClassroomList = []
+    if "username" not in request.session:
+        return render(request, 'ses/login.html', {})
+    else:
+        username = request.session["username"]
+
+    if 'selectGradeID' in request.GET:
+        selectGradeID = int(request.GET['selectGradeID'].encode('utf-8'))
+
+    if 'selectSubID' in request.GET:
+        selectSubID = int(request.GET['selectSubID'].encode('utf-8'))
+
+    allclassroomList = models.Classroom.objects.values('id', 'name').filter(grade=selectGradeID)
+
+    classroomTeaHasList = models.Course.objects.values('classroom__id', 'classroom__name').filter(
+        teacher__name=username, classroom__grade=selectGradeID, subject__id=selectSubID).distinct()
+
+    print "---------------", classroomTeaHasList
+    print "++++++++++++++++", allclassroomList
+
+    classroomHasList = []
+    for item in classroomTeaHasList:
+        classroomHasList.append(item['classroom__id'])
+
+    for classroom in allclassroomList:
+        if classroom['id'] in classroomHasList:
+            outputClassroomList.append(
+                {'id': classroom['id'], 'name': classroom['name'], 'isHas': 1})
+        else:
+            outputClassroomList.append(
+                {'id': classroom['id'], 'name': classroom['name'], 'isHas': 0})
+
+    return HttpResponse(json.dumps(list(outputClassroomList)), content_type="application/json")

@@ -82,6 +82,37 @@
                 }
             });
 
+            $("#selectSub_p5").change(function(){
+                var selectSubID=$("#selectSub_p5").val();
+                var selectGradeID = $("#selectGrade_p5").val();
+                //var urlString = "/ses/getNotClaBySubGra?selectSubID="+selectSubID+"&selectGradeID="+selectGradeID;
+
+                $.ajax({
+                    url : encodeURI("/ses/getNotClaBySubGra?selectSubID="+selectSubID+"&selectGradeID="+selectGradeID),
+                    type : 'GET',
+                    dataType : "json",
+                    success : function(outputClassroomList) {
+                        var selectCla =$(document).find("#selectClassroom_p5");
+                        selectCla.empty();
+
+                        //不需要解析就可以使用了
+                        $.each(outputClassroomList, function(idx, obj) {
+                            //alert(obj.scoreRule__title);
+                            //selectScoreRule.append("<option value='"+obj.scoreRule__id+"'>"+ obj.scoreRule__title+ "</option>");
+                            if (obj.isHas==1){
+                                selectCla.append("<input type='checkbox' name='selectedClassroomIDList' value='"+obj.id+"' checked='checked' DISABLED/>"+obj.name);
+                            }else{
+                                selectCla.append("<input type='checkbox' name='selectedClassroomIDList' value='"+obj.id+"' />"+obj.name);
+                            }
+
+
+                        });
+
+                    }
+                });
+            });
+            $('#selectSub_p5').trigger('change');
+
         });
   </script>
 
@@ -110,7 +141,7 @@
             <li><a id="p2" href="#panel-2">分配评价</a></li>
             <li><a id="p3" href="#panel-3">添加评价</a></li>
             <li><a id="p4" href="#panel-4">我的班级</a></li>
-            <li><a id="p5" href="#panel-5">我的课程</a></li>
+            <li><a id="p5" href="#panel-5">分配班级/课程</a></li>
           </ul>
     </nav>
     <div class="panels">
@@ -290,55 +321,79 @@
                 <table class="table">
                     <p3><strong>我的班级</strong></p3>
                     <tr>
-                        <td>班级编号</td>
-                        <td>班级名称</td>
+                        <td>编号</td>
+                        <td>班级</td>
+                        <td>学科</td>
                         <td>操作</td>
                     </tr>
-                    {% for classroom in classrooms%}
+                    {% for course in courses%}
                     <tr>
-                        <td>{{classroom.id}}</td>
-                        <td>{{classroom.name}}</td>
+                        <td>{{course.id}}</td>
+                        <td>{{course.classroom.name}}</td>
+                        <td>{{course.subject.name}}</td>
                         <td>删除</td>
                     </tr>
                     {% endfor %}
                 </table>
             </div>
-            <div class="table-responsive">
-                <table class="table">
-                    <p3><strong>添加班级</strong></p3><br />
-                    未添加的班级
-                    <from action="/ses/addClassroom" method="get">
-                        <select name="selectCla">
-                        {% for classroom in withoutClassroomList%}
-                            <OPTION VALUE={{classroom.id}}>{{classroom.name}}</OPTION>
-                        {% endfor %}
-                        </select>
-                        <!--<input type="hidden" name="whichPanel" value="p4">-->
-                        <input type="submit" value="添加班级">
-                    </from>
-                </table>
-            </div>
+            <!--<div class="table-responsive">-->
+                <!--<table class="table">-->
+                    <!--<p3><strong>添加班级</strong></p3><br />-->
+                    <!--未添加的班级-->
+                    <!--<from action="/ses/addClassroom" method="get">-->
+                        <!--<select name="selectCla">-->
+                        <!--{% for classroom in withoutClassroomList%}-->
+                            <!--<OPTION VALUE={{classroom.id}}>{{classroom.name}}</OPTION>-->
+                        <!--{% endfor %}-->
+                        <!--</select>-->
+                        <!--&lt;!&ndash;<input type="hidden" name="whichPanel" value="p4">&ndash;&gt;-->
+                        <!--<input type="submit" value="添加班级">-->
+                    <!--</from>-->
+                <!--</table>-->
+            <!--</div>-->
 
         </div>
         <div class="panel clearfix" id="panel-5">
-            <div class="table-responsive">
-                <table class="table">
-                    我的课程
-                    <tr>
-                        <td>课程编号</td>
-                        <td>课程名称</td>
-                        <td>操作</td>
-                    </tr>
-                    {% for subject in subjects%}
-                    <tr>
-                        <td>{{subject.id}}</td>
-                        <td>{{subject.name}}</td>
-                        <td>删除</td>
-                    </tr>
-                    {% endfor %}
-                </table>
-            </div>
+            <form action="/ses/addClassroom" method="get">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tr>
+                            <td>学科</td>
+                            <td>
+                                <select name="selectSub" id="selectSub_p5">
+                                {% for subject in allSubjectList%}
+                                    <OPTION VALUE={{subject.id}}>{{subject.name}}</OPTION>
+                                {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>年级</td>
+                            <td>
+                                <select name="selectGrade" id="selectGrade_p5">
+                                    {% for grade in allGradeList %}
+                                        <OPTION VALUE={{grade.grade}}>{{grade.grade}}</OPTION>
+                                    {% endfor %}
+                                    <!--<OPTION VALUE=1>一年级</OPTION>-->
+                                    <!--<OPTION VALUE=2>二年级</OPTION>-->
+                                    <!--<OPTION VALUE=3>三年级</OPTION>-->
+                                    <!--<OPTION VALUE=4>四年级</OPTION>-->
+                                    <!--<OPTION VALUE=5 selected>五年级</OPTION>-->
+                                    <!--<OPTION VALUE=6>六年级</OPTION>-->
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>班级</td>
+                            <td id="selectClassroom_p5">
 
+                            </td>
+                        </tr>
+                    </table>
+                    <input type="submit" value="添加班级">
+                    <input type="reset" value="重置">
+                </div>
+            </form>
         </div>
     </div>
     <input id="myhidden" type="hidden" value={{whichPanel}}>

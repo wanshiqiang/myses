@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^sortSeat/$', views.sortSeat),
     url(r'^outputScoreListByExcel/$', views.outputScoreListByExcel),
     url(r'^addClassroom/$', views.addClassroom),
+    url(r'^getNotClaBySubGra/$', views.getNotClaBySubGra),
 ]
