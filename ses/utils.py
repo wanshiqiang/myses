@@ -73,7 +73,7 @@ def saveStudentDataFromExcel(filename):
     print type(sht)
     # print sht.range('A2').value
 
-    subjectList = models.Subject.objects.all()
+    # subjectList = models.Subject.objects.all()
 
     studentsData = sht.range('A2').expand('table').value
 
@@ -91,28 +91,19 @@ def saveStudentDataFromExcel(filename):
             if len(classroom) == 1:
                 student.classroom = classroom[0]
                 student.save()
-
-                for subject in subjectList:
-                    seat = models.Seat()
-                    seat.student = student
-                    seat.subject = subject
-                    seat.seatNo = student.stuNO
-                    seat.save()
-
-                    # 总积分是默认自动添加的
-                    # testForm = models.TestForm()
-                    # testForm.title = '总积分'
-                    # testForm.testScore = 0
-                    # testForm.save()
-
-                    # score = models.Score()
-                    # score.student = student
-                    # score.subject = subject
-                    # # score.testForm = testForm
-                    # score.title = '课堂表现'
-                    # score.score = 0
-                    # score.save()
-
+                #查询添加的该学生所在班级的所有subject是否都有座位了，如果没有就添加seat表
+                courseList = models.Course.objects.filter(classroom__id=student.classroom.id)
+                print '========================saveStudent======================================',student.id,student.name
+                print 'has subejcts',courseList
+                seatNoList = models.Seat.objects.values_list('subject__id').filter(student__id=student.id)
+                print 'has seatNoList',seatNoList
+                for course in courseList:
+                    if course.subject.id not in seatNoList:
+                        seat = models.Seat()
+                        seat.student = student
+                        seat.subject = course.subject
+                        seat.seatNo = student.stuNO
+                        seat.save()
             else:
                 print student.name + "的classroom is wrong，maybe is not exit"
             print "name:" + student.name + "is saved"

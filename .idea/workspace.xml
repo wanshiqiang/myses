@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="57537c0d-d2ad-418d-978c-3e7a29200fd1" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ses/static/upload/studentData.xlsx" afterPath="$PROJECT_DIR$/ses/static/upload/studentData.xlsx" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ses/templates/ses/subject_manage.html" afterPath="$PROJECT_DIR$/ses/templates/ses/subject_manage.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ses/urls.py" afterPath="$PROJECT_DIR$/ses/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ses/views.py" afterPath="$PROJECT_DIR$/ses/views.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ses/models.py" afterPath="$PROJECT_DIR$/ses/models.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ses/templates/ses/model_clr.html" afterPath="$PROJECT_DIR$/ses/templates/ses/model_clr.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ses/utils.py" afterPath="$PROJECT_DIR$/ses/utils.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -23,8 +24,8 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ses/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-16">
-              <caret line="194" column="85" lean-forward="true" selection-start-line="194" selection-start-column="85" selection-end-line="194" selection-end-column="85" />
+            <state relative-caret-position="235">
+              <caret line="103" column="9" lean-forward="false" selection-start-line="103" selection-start-column="4" selection-end-line="103" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -33,7 +34,7 @@
       <file leaf-file-name="edit_seat.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ses/templates/ses/edit_seat.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1680">
+            <state relative-caret-position="15">
               <caret line="112" column="14" lean-forward="false" selection-start-line="112" selection-start-column="14" selection-end-line="112" selection-end-column="14" />
               <folding />
             </state>
@@ -63,8 +64,8 @@
       <file leaf-file-name="model_clr.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ses/templates/ses/model_clr.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="181">
-              <caret line="333" column="68" lean-forward="false" selection-start-line="333" selection-start-column="30" selection-end-line="333" selection-end-column="68" />
+            <state relative-caret-position="276">
+              <caret line="390" column="32" lean-forward="false" selection-start-line="390" selection-start-column="32" selection-end-line="390" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -100,11 +101,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="utils.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="utils.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ses/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="12" column="17" lean-forward="false" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
+            <state relative-caret-position="183">
+              <caret line="93" column="54" lean-forward="false" selection-start-line="93" selection-start-column="17" selection-end-line="93" selection-end-column="59" />
               <folding>
                 <element signature="e#24#44#0" expanded="true" />
               </folding>
@@ -112,11 +113,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="myTest.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ses/myTest.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="466">
+              <caret line="50" column="54" lean-forward="true" selection-start-line="50" selection-start-column="4" selection-end-line="50" selection-end-column="54" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ses/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-6432">
-              <caret line="393" column="105" lean-forward="true" selection-start-line="393" selection-start-column="105" selection-end-line="393" selection-end-column="105" />
+            <state relative-caret-position="341">
+              <caret line="366" column="50" lean-forward="false" selection-start-line="366" selection-start-column="39" selection-end-line="366" selection-end-column="50" />
               <folding>
                 <element signature="e#24#63#0" expanded="true" />
                 <marker date="1502783630678" expanded="true" signature="424:3475" ph="..." />
@@ -145,6 +156,9 @@
       <find>png</find>
       <find>title</find>
       <find>seat</find>
+      <find>values</find>
+      <find>value</find>
+      <find>objects.value</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -169,15 +183,15 @@
         <option value="$PROJECT_DIR$/myses/settings.py" />
         <option value="$PROJECT_DIR$/ses/templates/ses/top_navigation.html" />
         <option value="$PROJECT_DIR$/ses/admin.py" />
-        <option value="$PROJECT_DIR$/ses/utils.py" />
         <option value="$PROJECT_DIR$/ses/static/js/panelSubject.ui.js" />
-        <option value="$PROJECT_DIR$/ses/models.py" />
         <option value="$PROJECT_DIR$/ses/templates/ses/edit_seat.html" />
         <option value="$PROJECT_DIR$/ses/templates/ses/scoreListQuery.html" />
-        <option value="$PROJECT_DIR$/ses/templates/ses/model_clr.html" />
         <option value="$PROJECT_DIR$/ses/urls.py" />
         <option value="$PROJECT_DIR$/ses/templates/ses/subject_manage.html" />
         <option value="$PROJECT_DIR$/ses/views.py" />
+        <option value="$PROJECT_DIR$/ses/models.py" />
+        <option value="$PROJECT_DIR$/ses/utils.py" />
+        <option value="$PROJECT_DIR$/ses/templates/ses/model_clr.html" />
       </list>
     </option>
   </component>
@@ -203,7 +217,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -263,28 +276,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; Python 2.7.13 (C:\Python27\python.exe) &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="site-packages" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="myses" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="myses" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -317,11 +308,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
+              <option name="myItemId" value="static" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="ses" />
+              <option name="myItemId" value="upload" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -377,6 +368,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -591,7 +583,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24743778" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -857,13 +848,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ses/myTest.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="53" column="12" lean-forward="false" selection-start-line="53" selection-start-column="12" selection-end-line="53" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ses/static/js/jquery-migrate-3.0.0.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -887,36 +871,10 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ses/templates/ses/top_navigation2.html" />
-    <entry file="file://$PROJECT_DIR$/ses/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="12" column="17" lean-forward="false" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
-          <folding>
-            <element signature="e#24#44#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ses/templates/ses/scoreListQuery.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
           <caret line="22" column="78" lean-forward="false" selection-start-line="22" selection-start-column="69" selection-end-line="22" selection-end-column="78" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ses/templates/ses/edit_seat.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1680">
-          <caret line="112" column="14" lean-forward="false" selection-start-line="112" selection-start-column="14" selection-end-line="112" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ses/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-16">
-          <caret line="194" column="85" lean-forward="true" selection-start-line="194" selection-start-column="85" selection-end-line="194" selection-end-column="85" />
           <folding />
         </state>
       </provider>
@@ -929,11 +887,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ses/templates/ses/model_clr.html">
+    <entry file="file://$PROJECT_DIR$/ses/templates/ses/edit_seat.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="333" column="68" lean-forward="false" selection-start-line="333" selection-start-column="30" selection-end-line="333" selection-end-column="68" />
+        <state relative-caret-position="15">
+          <caret line="112" column="14" lean-forward="false" selection-start-line="112" selection-start-column="14" selection-end-line="112" selection-end-column="14" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ses/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="341">
+          <caret line="366" column="50" lean-forward="false" selection-start-line="366" selection-start-column="39" selection-end-line="366" selection-end-column="50" />
+          <folding>
+            <element signature="e#24#63#0" expanded="true" />
+            <marker date="1502783630678" expanded="true" signature="424:3475" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -955,13 +924,36 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ses/views.py">
+    <entry file="file://$PROJECT_DIR$/ses/myTest.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-6432">
-          <caret line="393" column="105" lean-forward="true" selection-start-line="393" selection-start-column="105" selection-end-line="393" selection-end-column="105" />
+        <state relative-caret-position="466">
+          <caret line="50" column="54" lean-forward="true" selection-start-line="50" selection-start-column="4" selection-end-line="50" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ses/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="235">
+          <caret line="103" column="9" lean-forward="false" selection-start-line="103" selection-start-column="4" selection-end-line="103" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ses/templates/ses/model_clr.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="390" column="32" lean-forward="false" selection-start-line="390" selection-start-column="32" selection-end-line="390" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ses/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="183">
+          <caret line="93" column="54" lean-forward="false" selection-start-line="93" selection-start-column="17" selection-end-line="93" selection-end-column="59" />
           <folding>
-            <element signature="e#24#63#0" expanded="true" />
-            <marker date="1502783630678" expanded="true" signature="424:3475" ph="..." />
+            <element signature="e#24#44#0" expanded="true" />
           </folding>
         </state>
       </provider>

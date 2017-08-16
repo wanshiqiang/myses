@@ -210,7 +210,7 @@ class Seat(models.Model):
         return seat
 
     def __unicode__(self):
-        return '_'.join([self.student.name, self.subject.name])
+        return u'_'.join([self.student.name, self.subject.name])
 
 
 class Course(models.Model):
