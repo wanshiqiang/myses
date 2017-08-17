@@ -113,6 +113,37 @@
             });
             $('#selectSub_p5').trigger('change');
 
+
+            $("#selectGrade_p5").change(function(){
+                var selectSubID=$("#selectSub_p5").val();
+                var selectGradeID = $("#selectGrade_p5").val();
+                //var urlString = "/ses/getNotClaBySubGra?selectSubID="+selectSubID+"&selectGradeID="+selectGradeID;
+
+                $.ajax({
+                    url : encodeURI("/ses/getNotClaBySubGra?selectSubID="+selectSubID+"&selectGradeID="+selectGradeID),
+                    type : 'GET',
+                    dataType : "json",
+                    success : function(outputClassroomList) {
+                        var selectCla =$(document).find("#selectClassroom_p5");
+                        selectCla.empty();
+
+                        //不需要解析就可以使用了
+                        $.each(outputClassroomList, function(idx, obj) {
+                            //alert(obj.scoreRule__title);
+                            //selectScoreRule.append("<option value='"+obj.scoreRule__id+"'>"+ obj.scoreRule__title+ "</option>");
+                            if (obj.isHas==1){
+                                selectCla.append("<input type='checkbox' name='selectedClassroomIDList' value='"+obj.id+"' checked='checked' DISABLED/>"+obj.name);
+                            }else{
+                                selectCla.append("<input type='checkbox' name='selectedClassroomIDList' value='"+obj.id+"' />"+obj.name);
+                            }
+
+
+                        });
+
+                    }
+                });
+            });
+            $('#selectGrade_p5').trigger('change');
         });
   </script>
 

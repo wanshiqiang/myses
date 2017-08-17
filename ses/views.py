@@ -102,7 +102,8 @@ def index(request):
         "seatNo")
     # scores = models.Score.objects.filter(subject=selectedSubject,student__classroom=selectedClassroom,scoreRule__topTitle=selectedScoreTopScore).order_by("student__id")
     scores = models.Score.objects.filter(subject__id=selectedSubjectID, student__classroom__id=selectedClassID,
-                                         scoreRule__id=selectedScoreRuleID).order_by("student__id")
+                                         scoreRule__id=selectedScoreRuleID,
+                                         scoreRule__createTeacher__name=username).order_by("student__id")
 
     # students = models.Course.objects.get(classroom=selectedClassroom)
     print seats
@@ -823,7 +824,7 @@ def outputScoreListByExcel(request):
 
 
 def addClassroom(request):
-    whichPanel = "p5"
+    whichPanel = "p4"
     selectSubID = 0
     selectedClassroomIDList = []
 
@@ -840,22 +841,43 @@ def addClassroom(request):
         selectedClassroomIDList = request.GET.getlist('selectedClassroomIDList')
 
     for classroomID in selectedClassroomIDList:
-        isHasClassroomList = models.Course.objects.filter(teacher__name=username, subject__id=selectSubID,
-                                                          classroom__id=classroomID)
+        # 查询该班级该学科是否已经有人教了
+        isHasClassroomList = models.Course.objects.filter(subject__id=selectSubID, classroom__id=classroomID)
         if isHasClassroomList:
             return HttpResponse(
                 "班级" + isHasClassroomList[0].classroom.name + '已经添加' + isHasClassroomList[0].subject.name + "课程")
         else:
-            return HttpResponse("add:添加" + classroomID)
+            classroom = models.Classroom.objects.get(id=classroomID)
+            subject = models.Subject.objects.get(id=selectSubID)
+            teacher = models.Teacher.objects.get(name=username)
+            homework = models.Homework.objects.get(id=1)
+            course = models.Course()
+            course.classroom = classroom
+            course.subject = subject
+            course.teacher = teacher
+            course.homework = homework
+            course.save()
+            print '==========add couse==========', course
 
-    return HttpResponse("not has classrommidList")
+            students = models.Student.objects.filter(classroom=classroom)
+            for student in students:
+                seat = models.Seat()
+                seat.student = student
+                seat.subject = course.subject
+                seat.seatNo = student.stuNO
+                seat.save()
+                print '============add seat by course=================', seat
+
+                # return HttpResponse("add:添加" + course.subject.name+course.classroom.name)
+
+    # return HttpResponse("not has classrommidList")
 
     # subject = models.Subject.objects.get(id=selectedSubjectID)
     # scoreRule = models.ScoreRule.objects.get(id=scoreRuleID)
 
 
 
-    # return HttpResponseRedirect('/ses/subjectManage?whichPanel=' + whichPanel)
+    return HttpResponseRedirect('/ses/subjectManage?whichPanel=' + whichPanel)
 
 
 def getNotClaBySubGra(request):
@@ -875,8 +897,11 @@ def getNotClaBySubGra(request):
 
     allclassroomList = models.Classroom.objects.values('id', 'name').filter(grade=selectGradeID)
 
+    # classroomTeaHasList = models.Course.objects.values('classroom__id', 'classroom__name').filter(
+    #     teacher__name=username, classroom__grade=selectGradeID, subject__id=selectSubID).distinct()
+
     classroomTeaHasList = models.Course.objects.values('classroom__id', 'classroom__name').filter(
-        teacher__name=username, classroom__grade=selectGradeID, subject__id=selectSubID).distinct()
+        classroom__grade=selectGradeID, subject__id=selectSubID).distinct()
 
     print "---------------", classroomTeaHasList
     print "++++++++++++++++", allclassroomList
