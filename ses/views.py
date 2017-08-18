@@ -15,6 +15,7 @@ import json
 
 # Create your views here.
 from . import models
+import copy
 
 
 def index(request):
@@ -110,9 +111,116 @@ def index(request):
     # students = selectedClassroom.student_set.all()
     students = models.Student.objects.filter(classroom__id=selectedClassID)
 
+    newSeats =[]
+    for seatIndex ,seat in enumerate(seats):
+        if seatIndex > 0 and seat.seatNo != seats[seatIndex-1].seatNo+1:
+            # noStudent = copy.copy(seat.student)
+            noStudent =models.Student()
+            noStudent.name = '空'
+            noSeat = models.Seat()
+            noSeat.seatNo =seat.seatNo-1
+            noSeat.student = noStudent
+            newSeats.append(noSeat)
+        newSeats.append(seat)
+
+
     # return HttpResponse('hello,world')
     return render(request, 'ses/model_clr.html',
-                  {'seats': seats, 'classrooms': classrooms, 'subjects': subjects,
+                  {'seats': newSeats, 'classrooms': classrooms, 'subjects': subjects,
+                   'selectClassroomID': selectedClassID,
+                   'selectSubjectID': selectedSubjectID, 'scores': scores, 'scoreRules': scoreRules,
+                   'selectedScoreRuleID': selectedScoreRuleID, })
+
+
+def index2(request):
+    username = ''
+    if "username" in request.session:
+        username = request.session["username"]
+        # print '============================'
+        # print type(username)
+        # print username
+    else:
+        return render(request, 'ses/login.html', {})
+
+    courses = models.Course.objects.filter(teacher__name=username)
+
+    classrooms = []
+    subjects = []
+    for course in courses:
+        if course.classroom not in classrooms:
+            classrooms.append(course.classroom)
+        if course.subject not in subjects:
+            subjects.append(course.subject)
+
+    print '========================================', classrooms, subjects
+
+    selectedClassID = 0
+    selectedSubjectID = 0
+
+    if classrooms:
+        selectedClassID = classrooms[0].id
+
+    if subjects:
+        selectedSubjectID = subjects[0].id
+
+    if 'selectCla' in request.GET:
+        selectedClassID = int(request.GET['selectCla'].encode('utf-8'))
+
+    if 'selectSub' in request.GET:
+        selectedSubjectID = int(request.GET['selectSub'].encode('utf-8'))
+
+    print selectedClassID
+    print selectedSubjectID
+
+    # scoreRules = models.ScoreRule.objects.filter(topTitle__type=0)
+    scoreRules = models.Score.objects.values_list('scoreRule__id', 'scoreRule__title').filter(
+        subject__id=selectedSubjectID, student__classroom__id=selectedClassID, scoreRule__topTitle__type=0).distinct()
+
+    print scoreRules
+
+    if scoreRules:
+        selectedScoreRuleID = scoreRules[0][0]
+    else:
+        selectedScoreRuleID = 0
+
+    if 'selectScoreRule' in request.GET:
+        selectedScoreRuleID = int(request.GET['selectScoreRule'].encode('utf-8'))
+
+
+    seats = models.Seat.objects.filter(subject__id=selectedSubjectID, student__classroom__id=selectedClassID).order_by(
+        "seatNo")
+
+    scores = models.Score.objects.filter(subject__id=selectedSubjectID, student__classroom__id=selectedClassID,
+                                         scoreRule__id=selectedScoreRuleID,
+                                         scoreRule__createTeacher__name=username).order_by("student__id")
+
+    print seats
+
+    seatListByRowCol =[]
+
+    colSum = 6
+    for seatIndex,seat in enumerate(list(seats)):
+        seatNo = seat.seatNo - 1
+        rowIndex = seatNo/colSum + 1
+        colIndex = seatNo%colSum + 1
+        print seatIndex
+        # if seatIndex > 0 and seat.seatNo != seat[seatIndex-1].seatNo+1:
+        if seatIndex > 0 and seat.seatNo != seats[seatIndex-1].seatNo+1:
+            noStudent = copy.copy(seat.student)
+            noStudent.name = '空'
+            noSeat = models.Seat()
+            noSeat.seatNo =seat.seatNo-1
+            noSeat.student = noStudent
+            noSeat.student.name ='空'
+            seatByRowCol = {'seat': noSeat, 'rowIndex': 0, 'colIndex': 0}
+            seatListByRowCol.append(seatByRowCol)
+
+        seatByRowCol = {'seat': seat, 'rowIndex': rowIndex, 'colIndex': colIndex}
+        seatListByRowCol.append(seatByRowCol)
+
+    # return HttpResponse(seatListByRowCol)
+    return render(request, 'ses/model_clr2.html',
+                  {'seatListByRowCol': seatListByRowCol, 'classrooms': classrooms, 'subjects': subjects,
                    'selectClassroomID': selectedClassID,
                    'selectSubjectID': selectedSubjectID, 'scores': scores, 'scoreRules': scoreRules,
                    'selectedScoreRuleID': selectedScoreRuleID, })
@@ -682,42 +790,81 @@ def sortSeat(request):
 
     seats = models.Seat.objects.filter(subject__id=subjectID, student__classroom__id=classroomID).order_by(
         "student__number")
-    seatSum = len(seats)
+    seatSum = max(len(seats),48)
     print '===================', 'col=', col, 'seatSum=', seatSum
 
     seatNoList = []
     # colList = []
 
 
-    if sortType == 1:
-        # 生成按照每一列排序的座位号
-        for j in range(int(col)):
-            # 多计算1行
-            # for i in range(1,int(seatSum/col+1)):
-            for i in range(int(seatSum / col + 1)):
-                seatNo = (i + 1 - 1) * col + j + 1
-                # colList.append(seatNo)
-                if seatNo <= seatSum:
-                    seatNoList.append(seatNo)
-            # seatNoList.append(colList)
-            colList = []
+    # if sortType == 1:
+    #     # 生成按照每一列排序的座位号
+    #     for j in range(int(col)):
+    #         # 多计算1行
+    #         # for i in range(1,int(seatSum/col+1)):
+    #         for i in range(int(seatSum / col + 1)):
+    #             seatNo = (i + 1 - 1) * col + j + 1
+    #             # colList.append(seatNo)
+    #             if seatNo <= seatSum:
+    #                 seatNoList.append(seatNo)
+    #         # seatNoList.append(colList)
+    #         colList = []
+    #
+    #     for index, seat in enumerate(seats):
+    #         seat.seatNo = seatNoList[index]
+    #         seat.save()
 
-        for index, seat in enumerate(seats):
+    if sortType == 1:
+        #行列改进算法
+        for j in range(int(col)):
+            #先按照正好不多人算,再算多的人
+            for i in range(int(seatSum / col)):
+                seatNo = (i + 1 - 1) * col + j + 1
+                seatNoList.append(seatNo)
+
+        hasCount = int(seatSum/col)*col
+        for k in range(int(seatSum-hasCount)):
+            seatNoList.append(hasCount+k+1)
+
+        for index,seat in enumerate(seats):
             seat.seatNo = seatNoList[index]
             seat.save()
+
+
+
+
+    # if sortType == 2:
+    #     # 生成按照每一列排序的座位号
+    #     for j in range(int(col)):
+    #         # 多计算1行
+    #         # for i in range(1,int(seatSum/col+1)):
+    #         for i in range(int(seatSum / col + 1), 1 - 1, -1):
+    #             seatNo = (i - 1) * col + j + 1
+    #             # colList.append(seatNo)
+    #             if seatNo <= seatSum:
+    #                 seatNoList.append(seatNo)
+    #         # seatNoList.append(colList)
+    #         colList = []
+    #
+    #     for index, seat in enumerate(seats):
+    #         seat.seatNo = seatNoList[index]
+    #         seat.save()
 
     if sortType == 2:
         # 生成按照每一列排序的座位号
         for j in range(int(col)):
-            # 多计算1行
+            # #先按照正好不多人算,再算多的人
             # for i in range(1,int(seatSum/col+1)):
-            for i in range(int(seatSum / col + 1), 1 - 1, -1):
+            for i in range(int(seatSum / col), 1 - 1, -1):
                 seatNo = (i - 1) * col + j + 1
                 # colList.append(seatNo)
                 if seatNo <= seatSum:
                     seatNoList.append(seatNo)
             # seatNoList.append(colList)
-            colList = []
+
+        hasCount = int(seatSum / col) * col
+        for k in range(int(seatSum - hasCount)):
+            seatNoList.append(hasCount + k + 1)
 
         for index, seat in enumerate(seats):
             seat.seatNo = seatNoList[index]

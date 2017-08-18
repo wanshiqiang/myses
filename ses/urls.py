@@ -5,6 +5,7 @@ from . import admin
 
 urlpatterns = [
     url(r'^index/$', views.index),
+    url(r'^index2/$', views.index2),
     url(r'^editSeat/$', views.editSeat),
     url(r'^searchSeat/$', views.index),
     url(r'^changeSeat/$', views.changeSeat),
