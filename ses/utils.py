@@ -59,6 +59,7 @@ def saveClassroomDataFromExcel(filename):
     wb.close()
     app.quit()
 
+
 # def saveTestForm():
 #     # 总积分是默认自动添加的
 #     testForm = models.TestForm()
@@ -77,7 +78,6 @@ def saveStudentDataFromExcel(filename):
 
     studentsData = sht.range('A2').expand('table').value
 
-
     for studentLine in studentsData:
         student = models.Student()
         student.name = studentLine[0]
@@ -85,18 +85,18 @@ def saveStudentDataFromExcel(filename):
         student.number = int(studentLine[1])
         student.pwd = int(studentLine[2])
         student.stuNO = studentLine[3]
-        print '===============',student.number
+        print '===============', student.number
         if len(models.Student.objects.filter(number=student.number)) == 0:
             classroom = models.Classroom.objects.filter(name=studentLine[4])
             if len(classroom) == 1:
                 student.classroom = classroom[0]
                 student.save()
-                #查询添加的该学生所在班级的所有subject是否都有座位了，如果没有就添加seat表
+                # 查询添加的该学生所在班级的所有subject是否都有座位了，如果没有就添加seat表
                 courseList = models.Course.objects.filter(classroom__id=student.classroom.id)
-                print '========================saveStudent======================================',student.id,student.name
-                print 'has subejcts',courseList
+                print '========================saveStudent======================================', student.id, student.name
+                print 'has subejcts', courseList
                 seatNoList = models.Seat.objects.values_list('subject__id').filter(student__id=student.id)
-                print 'has seatNoList',seatNoList
+                print 'has seatNoList', seatNoList
                 for course in courseList:
                     if course.subject.id not in seatNoList:
                         seat = models.Seat()
@@ -104,6 +104,19 @@ def saveStudentDataFromExcel(filename):
                         seat.subject = course.subject
                         seat.seatNo = student.stuNO
                         seat.save()
+                    # 查询这个学生所在subject的所有评分标准,并添加积分=0
+                    scoreRuleNoList = models.Score.objects.values_list('scoreRule__id').filter(
+                        student__classroom__id=student.classroom.id, subject__id=course.subject.id).distinct()
+                    for scoreRuleNo in scoreRuleNoList:
+                        newScore = models.Score()
+                        newScore.student= student
+                        newScore.subject = course.subject
+                        newScore.score = 0
+                        newScore.scoreRule = models.ScoreRule.objects.get(id = scoreRuleNo[0])
+                        print '===================================',newScore
+                        newScore.save()
+
+
             else:
                 print student.name + "的classroom is wrong，maybe is not exit"
             print "name:" + student.name + "is saved"
@@ -113,13 +126,14 @@ def saveStudentDataFromExcel(filename):
     wb.close()
     app.quit()
 
-def seatDataFromExcel(filename):
-   pass
 
+def seatDataFromExcel(filename):
+    pass
 
 
 def saveTeacherDataFromExcel():
     pass
+
 
 def saveScoreDataFromExcel():
     pass
