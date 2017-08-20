@@ -115,12 +115,13 @@ def index(request):
     for seatIndex ,seat in enumerate(seats):
         if seatIndex > 0 and seat.seatNo != seats[seatIndex-1].seatNo+1:
             # noStudent = copy.copy(seat.student)
-            noStudent =models.Student()
-            noStudent.name = '空'
-            noSeat = models.Seat()
-            noSeat.seatNo =seat.seatNo-1
-            noSeat.student = noStudent
-            newSeats.append(noSeat)
+            for count in range(seat.seatNo-seats[seatIndex-1].seatNo-1):
+                noStudent =models.Student()
+                noStudent.name = '空'
+                noSeat = models.Seat()
+                noSeat.seatNo =seat.seatNo-count-1
+                noSeat.student = noStudent
+                newSeats.append(noSeat)
         newSeats.append(seat)
 
 
@@ -248,8 +249,25 @@ def editSeat(request):
     seats = models.Seat.objects.filter(subject=selectedSubject, student__classroom=selectedClassroom).order_by("seatNo")
 
     students = selectedClassroom.student_set.all()
+
+    newSeats = []
+    for seatIndex, seat in enumerate(seats):
+        if seatIndex > 0 and seat.seatNo != seats[seatIndex - 1].seatNo + 1:
+            # noStudent = copy.copy(seat.student)
+            for count in range(seat.seatNo - seats[seatIndex - 1].seatNo - 1):
+                noStudent = models.Student()
+                # noStudent.number = seats[seatIndex-1].seatNo + count + 1
+                noStudent.number = 0
+                noStudent.name = '空'
+                noSeat = models.Seat()
+                noSeat.seatNo = seat.seatNo - count - 1
+                noSeat.student = noStudent
+                newSeats.append(noSeat)
+        newSeats.append(seat)
+
+
     return render(request, 'ses/edit_seat.html',
-                  {'students': students, 'seats': seats, 'selectedClassroom': selectedClassroom,
+                  {'students': students, 'seats': newSeats, 'selectedClassroom': selectedClassroom,
                    'selectedSubject': selectedSubject, })
 
 
@@ -320,11 +338,17 @@ def changeSeat(request):
     for seat in seats:
         print "====seats===111==" + str(seat.seatNo) + "\n"
 
-    tempNO = seats[0].seatNo
-    seats[0].seatNo = seats[1].seatNo
-    seats[1].seatNo = tempNO
-    # seats[0].save()
-    # seats[1].save()
+    if len(seats)==2:
+        tempNO = seats[0].seatNo
+        seats[0].seatNo = seats[1].seatNo
+        seats[1].seatNo = tempNO
+
+    if len(seats)==1:
+        if seats[0].seatNo == seat1:
+            seats[0].seatNo = seat2
+        else:
+            seats[0].seatNo = seat1
+
     for seat in seats:
         print "====seats===222==" + str(seat.seatNo) + "\n"
         seat.save()

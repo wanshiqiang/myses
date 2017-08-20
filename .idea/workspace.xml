@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="57537c0d-d2ad-418d-978c-3e7a29200fd1" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ses/templates/ses/model_clr2.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ses/urls.py" afterPath="$PROJECT_DIR$/ses/urls.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ses/views.py" afterPath="$PROJECT_DIR$/ses/views.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -33,7 +31,7 @@
       <file leaf-file-name="edit_seat.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ses/templates/ses/edit_seat.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1680">
+            <state relative-caret-position="1529">
               <caret line="112" column="14" lean-forward="false" selection-start-line="112" selection-start-column="14" selection-end-line="112" selection-end-column="14" />
               <folding />
             </state>
@@ -43,7 +41,7 @@
       <file leaf-file-name="subject_manage.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ses/templates/ses/subject_manage.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
+            <state relative-caret-position="2175">
               <caret line="145" column="30" lean-forward="false" selection-start-line="145" selection-start-column="30" selection-end-line="145" selection-end-column="30" />
               <folding>
                 <element signature="n#style#0;n#head#0;n#html#0;n#!!top" expanded="false" />
@@ -63,7 +61,7 @@
       <file leaf-file-name="model_clr.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ses/templates/ses/model_clr.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="554">
+            <state relative-caret-position="5850">
               <caret line="390" column="32" lean-forward="false" selection-start-line="390" selection-start-column="32" selection-end-line="390" selection-end-column="32" />
               <folding />
             </state>
@@ -74,7 +72,7 @@
         <entry file="file://$PROJECT_DIR$/ses/urls.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="75">
-              <caret line="7" column="34" lean-forward="true" selection-start-line="7" selection-start-column="34" selection-end-line="7" selection-end-column="34" />
+              <caret line="7" column="34" lean-forward="false" selection-start-line="7" selection-start-column="34" selection-end-line="7" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -94,7 +92,7 @@
         <entry file="file://$PROJECT_DIR$/ses/utils.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1545">
-              <caret line="105" column="35" lean-forward="true" selection-start-line="102" selection-start-column="24" selection-end-line="105" selection-end-column="35" />
+              <caret line="105" column="35" lean-forward="false" selection-start-line="102" selection-start-column="24" selection-end-line="105" selection-end-column="35" />
               <folding>
                 <element signature="e#24#44#0" expanded="true" />
               </folding>
@@ -115,11 +113,11 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ses/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="464">
-              <caret line="128" column="36" lean-forward="false" selection-start-line="128" selection-start-column="36" selection-end-line="128" selection-end-column="36" />
+            <state relative-caret-position="269">
+              <caret line="349" column="29" lean-forward="false" selection-start-line="349" selection-start-column="29" selection-end-line="349" selection-end-column="29" />
               <folding>
                 <element signature="e#24#63#0" expanded="true" />
-                <marker date="1503045509217" expanded="true" signature="436:3487" ph="..." />
+                <marker date="1503235504915" expanded="true" signature="436:3487" ph="..." />
               </folding>
             </state>
           </provider>
@@ -128,7 +126,7 @@
       <file leaf-file-name="model_clr2.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ses/templates/ses/model_clr2.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="382">
+            <state relative-caret-position="6240">
               <caret line="416" column="16" lean-forward="false" selection-start-line="416" selection-start-column="16" selection-end-line="416" selection-end-column="16" />
               <folding>
                 <element signature="n#style#0;n#div#3;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -221,7 +219,6 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -416,6 +413,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -630,6 +628,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24743778" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -684,7 +683,7 @@
           <caret line="22" column="46" lean-forward="false" selection-start-line="22" selection-start-column="46" selection-end-line="22" selection-end-column="46" />
           <folding>
             <element signature="e#24#63#0" expanded="true" />
-            <marker date="1503045509217" expanded="true" signature="436:3487" ph="..." />
+            <marker date="1503235504915" expanded="true" signature="436:3487" ph="..." />
           </folding>
         </state>
       </provider>
@@ -906,7 +905,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
           <caret line="2" column="53" lean-forward="false" selection-start-line="2" selection-start-column="53" selection-end-line="2" selection-end-column="53" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -915,14 +913,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
           <caret line="22" column="78" lean-forward="false" selection-start-line="22" selection-start-column="69" selection-end-line="22" selection-end-column="78" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ses/templates/ses/edit_seat.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1680">
-          <caret line="112" column="14" lean-forward="false" selection-start-line="112" selection-start-column="14" selection-end-line="112" selection-end-column="14" />
           <folding />
         </state>
       </provider>
@@ -938,7 +928,7 @@
     <entry file="file://$PROJECT_DIR$/ses/utils.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1545">
-          <caret line="105" column="35" lean-forward="true" selection-start-line="102" selection-start-column="24" selection-end-line="105" selection-end-column="35" />
+          <caret line="105" column="35" lean-forward="false" selection-start-line="102" selection-start-column="24" selection-end-line="105" selection-end-column="35" />
           <folding>
             <element signature="e#24#44#0" expanded="true" />
           </folding>
@@ -956,14 +946,14 @@
     <entry file="file://$PROJECT_DIR$/ses/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
-          <caret line="7" column="34" lean-forward="true" selection-start-line="7" selection-start-column="34" selection-end-line="7" selection-end-column="34" />
+          <caret line="7" column="34" lean-forward="false" selection-start-line="7" selection-start-column="34" selection-end-line="7" selection-end-column="34" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ses/templates/ses/model_clr.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="554">
+        <state relative-caret-position="5850">
           <caret line="390" column="32" lean-forward="false" selection-start-line="390" selection-start-column="32" selection-end-line="390" selection-end-column="32" />
           <folding />
         </state>
@@ -971,7 +961,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ses/templates/ses/subject_manage.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
+        <state relative-caret-position="2175">
           <caret line="145" column="30" lean-forward="false" selection-start-line="145" selection-start-column="30" selection-end-line="145" selection-end-column="30" />
           <folding>
             <element signature="n#style#0;n#head#0;n#html#0;n#!!top" expanded="false" />
@@ -989,7 +979,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ses/templates/ses/model_clr2.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="382">
+        <state relative-caret-position="6240">
           <caret line="416" column="16" lean-forward="false" selection-start-line="416" selection-start-column="16" selection-end-line="416" selection-end-column="16" />
           <folding>
             <element signature="n#style#0;n#div#3;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -998,13 +988,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/ses/templates/ses/edit_seat.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1529">
+          <caret line="112" column="14" lean-forward="false" selection-start-line="112" selection-start-column="14" selection-end-line="112" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ses/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="464">
-          <caret line="128" column="36" lean-forward="false" selection-start-line="128" selection-start-column="36" selection-end-line="128" selection-end-column="36" />
+        <state relative-caret-position="269">
+          <caret line="349" column="29" lean-forward="false" selection-start-line="349" selection-start-column="29" selection-end-line="349" selection-end-column="29" />
           <folding>
             <element signature="e#24#63#0" expanded="true" />
-            <marker date="1503045509217" expanded="true" signature="436:3487" ph="..." />
+            <marker date="1503235504915" expanded="true" signature="436:3487" ph="..." />
           </folding>
         </state>
       </provider>
