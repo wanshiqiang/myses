@@ -45,7 +45,7 @@ def saveSubjectDB():
 
 def saveClassroomDB():
     print u"============导入classroom名单==============="
-    utils.saveClassroomDataFromExcel("classroomData.xlsx")
+    utils.saveClassroomDataFromExcel("classroomData2.xlsx")
 def saveStudentDB():
     print u"=============导入students名单=============================="
     utils.saveStudentDataFromExcel("studentData.xlsx")

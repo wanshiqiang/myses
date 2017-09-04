@@ -47,8 +47,8 @@ def saveClassroomDataFromExcel(filename):
     for classroomLine in classroomsData:
         classroom = models.Classroom()
         classroom.name = classroomLine[0]
-        classroom.clazz = classroomLine[1]
-        classroom.grade = classroomLine[2]
+        classroom.clazz = int(classroomLine[1])
+        classroom.grade = int(classroomLine[2])
         if len(models.Classroom.objects.filter(name=classroom.name)) == 0:
             classroom.save()
             print "name:" + classroomLine[0] + "clazz" + str(classroomLine[1]) + "grade" + str(classroomLine[2])

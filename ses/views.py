@@ -111,19 +111,18 @@ def index(request):
     # students = selectedClassroom.student_set.all()
     students = models.Student.objects.filter(classroom__id=selectedClassID)
 
-    newSeats =[]
-    for seatIndex ,seat in enumerate(seats):
-        if seatIndex > 0 and seat.seatNo != seats[seatIndex-1].seatNo+1:
+    newSeats = []
+    for seatIndex, seat in enumerate(seats):
+        if seatIndex > 0 and seat.seatNo != seats[seatIndex - 1].seatNo + 1:
             # noStudent = copy.copy(seat.student)
-            for count in range(seat.seatNo-seats[seatIndex-1].seatNo-1):
-                noStudent =models.Student()
+            for count in range(seat.seatNo - seats[seatIndex - 1].seatNo - 1):
+                noStudent = models.Student()
                 noStudent.name = '空'
                 noSeat = models.Seat()
-                noSeat.seatNo =seat.seatNo-count-1
+                noSeat.seatNo = seat.seatNo - count - 1
                 noSeat.student = noStudent
                 newSeats.append(noSeat)
         newSeats.append(seat)
-
 
     # return HttpResponse('hello,world')
     return render(request, 'ses/model_clr.html',
@@ -187,7 +186,6 @@ def index2(request):
     if 'selectScoreRule' in request.GET:
         selectedScoreRuleID = int(request.GET['selectScoreRule'].encode('utf-8'))
 
-
     seats = models.Seat.objects.filter(subject__id=selectedSubjectID, student__classroom__id=selectedClassID).order_by(
         "seatNo")
 
@@ -197,22 +195,22 @@ def index2(request):
 
     print seats
 
-    seatListByRowCol =[]
+    seatListByRowCol = []
 
     colSum = 6
-    for seatIndex,seat in enumerate(list(seats)):
+    for seatIndex, seat in enumerate(list(seats)):
         seatNo = seat.seatNo - 1
-        rowIndex = seatNo/colSum + 1
-        colIndex = seatNo%colSum + 1
+        rowIndex = seatNo / colSum + 1
+        colIndex = seatNo % colSum + 1
         print seatIndex
         # if seatIndex > 0 and seat.seatNo != seat[seatIndex-1].seatNo+1:
-        if seatIndex > 0 and seat.seatNo != seats[seatIndex-1].seatNo+1:
+        if seatIndex > 0 and seat.seatNo != seats[seatIndex - 1].seatNo + 1:
             noStudent = copy.copy(seat.student)
             noStudent.name = '空'
             noSeat = models.Seat()
-            noSeat.seatNo =seat.seatNo-1
+            noSeat.seatNo = seat.seatNo - 1
             noSeat.student = noStudent
-            noSeat.student.name ='空'
+            noSeat.student.name = '空'
             seatByRowCol = {'seat': noSeat, 'rowIndex': 0, 'colIndex': 0}
             seatListByRowCol.append(seatByRowCol)
 
@@ -264,7 +262,6 @@ def editSeat(request):
                 noSeat.student = noStudent
                 newSeats.append(noSeat)
         newSeats.append(seat)
-
 
     return render(request, 'ses/edit_seat.html',
                   {'students': students, 'seats': newSeats, 'selectedClassroom': selectedClassroom,
@@ -338,12 +335,12 @@ def changeSeat(request):
     for seat in seats:
         print "====seats===111==" + str(seat.seatNo) + "\n"
 
-    if len(seats)==2:
+    if len(seats) == 2:
         tempNO = seats[0].seatNo
         seats[0].seatNo = seats[1].seatNo
         seats[1].seatNo = tempNO
 
-    if len(seats)==1:
+    if len(seats) == 1:
         if seats[0].seatNo == seat1:
             seats[0].seatNo = seat2
         else:
@@ -814,7 +811,7 @@ def sortSeat(request):
 
     seats = models.Seat.objects.filter(subject__id=subjectID, student__classroom__id=classroomID).order_by(
         "student__number")
-    seatSum = max(len(seats),48)
+    seatSum = max(len(seats), 48)
     print '===================', 'col=', col, 'seatSum=', seatSum
 
     seatNoList = []
@@ -839,23 +836,20 @@ def sortSeat(request):
     #         seat.save()
 
     if sortType == 1:
-        #行列改进算法
+        # 行列改进算法
         for j in range(int(col)):
-            #先按照正好不多人算,再算多的人
+            # 先按照正好不多人算,再算多的人
             for i in range(int(seatSum / col)):
                 seatNo = (i + 1 - 1) * col + j + 1
                 seatNoList.append(seatNo)
 
-        hasCount = int(seatSum/col)*col
-        for k in range(int(seatSum-hasCount)):
-            seatNoList.append(hasCount+k+1)
+        hasCount = int(seatSum / col) * col
+        for k in range(int(seatSum - hasCount)):
+            seatNoList.append(hasCount + k + 1)
 
-        for index,seat in enumerate(seats):
+        for index, seat in enumerate(seats):
             seat.seatNo = seatNoList[index]
             seat.save()
-
-
-
 
     # if sortType == 2:
     #     # 生成按照每一列排序的座位号
@@ -884,7 +878,7 @@ def sortSeat(request):
                 # colList.append(seatNo)
                 if seatNo <= seatSum:
                     seatNoList.append(seatNo)
-            # seatNoList.append(colList)
+                    # seatNoList.append(colList)
 
         hasCount = int(seatSum / col) * col
         for k in range(int(seatSum - hasCount)):
@@ -1090,3 +1084,8 @@ def getNotClaBySubGra(request):
                 {'id': classroom['id'], 'name': classroom['name'], 'isHas': 0})
 
     return HttpResponse(json.dumps(list(outputClassroomList)), content_type="application/json")
+
+def toimportData(request):
+    return render(request, 'ses/importdata.html',{})
+def importData(request):
+    return render(request, 'ses/importdata.html',{})

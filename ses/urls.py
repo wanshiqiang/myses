@@ -23,4 +23,6 @@ urlpatterns = [
     url(r'^outputScoreListByExcel/$', views.outputScoreListByExcel),
     url(r'^addClassroom/$', views.addClassroom),
     url(r'^getNotClaBySubGra/$', views.getNotClaBySubGra),
+    url(r'^toimportData/$', views.toimportData),
+    url(r'^importData/$', views.importData),
 ]
