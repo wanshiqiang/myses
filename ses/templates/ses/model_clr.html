@@ -140,6 +140,14 @@
           });
 
 
+          $("#add_score_all").click(function(){
+            selectCla = $("select[name=selectCla] option[selected]").val();
+            selectSub = $("select[name=selectSub] option[selected]").val();
+            selectScoreRule = $("select[name=selectScoreRule] option[selected]").val();
+            type= $('#edit_div input[name="editScore"]:checked ').val();
+            window.location.replace("/ses/addScoreAll/?selectCla="+selectCla+"&selectSub="+selectSub+"&selectScoreRule="+selectScoreRule+"&type="+type);
+          });
+
           $(".editScore").change(function() {
             var type_edit_score = $('#edit_div input[name="editScore"]:checked ').val();
             if (type_edit_score==1){
@@ -373,6 +381,7 @@
     <div id ="edit_div">
         <input type="radio" name="editScore" value="1" class="editScore" checked="checked">加分</input>
         <input type="radio" name="editScore" value="2" class="editScore">减分</input>
+        <input type="button" id="add_score_all" value="全班计分"></input>
         <input type="button" id="edit_seat" value="排序"></input>
     </div>
 

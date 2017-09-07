@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^logout/$', views.logout),
     url(r'^subjectManage/$', views.subjectManage),
     url(r'^scoreListQuery/$', views.scoreListQuery),
+    url(r'^scoreListQueryByStu/$', views.scoreListQueryByStu),
     url(r'^giveScoreRule/$', views.giveScoreRule),
     url(r'^addScoreRule/$', views.addScoreRule),
     url(r'^getScoreRules/$', views.getScoreRules),
@@ -25,4 +26,5 @@ urlpatterns = [
     url(r'^getNotClaBySubGra/$', views.getNotClaBySubGra),
     url(r'^toimportData/$', views.toimportData),
     url(r'^importData/$', views.importData),
+    url(r'^addScoreAll/$', views.addScoreAll),
 ]

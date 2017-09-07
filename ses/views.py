@@ -709,6 +709,86 @@ def scoreListQuery(request):
                   {'scoreList': scoreList, 'titleList': titleList, "classrooms": classrooms, 'subjects': subjects,
                    'selectClassroomID': classroomID, 'selectSubjectID': subjectID, })
 
+def  scoreListQueryByStu(request):
+    subjectID = 0
+    classroomID = 0
+    scoreList = []
+    titleList = ['姓名', ]
+    studentScore = []
+
+    username = ''
+    if "username" not in request.session:
+        return render(request, 'ses/login.html', {})
+    else:
+        username = request.session["username"]
+
+    # classrooms = models.Course.objects.values("classroom").filter(teacher__name=username)
+    # print classrooms
+    courses = models.Course.objects.filter(teacher__name=username)
+
+    classrooms = []
+    subjects = []
+    for course in courses:
+        if course.classroom not in classrooms:
+            classrooms.append(course.classroom)
+        if course.subject not in subjects:
+            subjects.append(course.subject)
+    print classrooms
+
+    if classrooms:
+        classroomID = classrooms[0].id
+
+    if subjects:
+        subjectID = subjects[0].id
+
+    if 'selectCla' in request.GET:
+        # selectedClassID = request.GET['selectCla'].encode('utf-8')
+        classroomID = int(request.GET['selectCla'].encode('utf-8'))
+
+        # message = '你搜索的内容为: ' + request.GET['q'].encode('utf-8')
+    if 'selectSub' in request.GET:
+        # selectedSubjectID = request.GET['selectSub'].encode('utf-8')
+        subjectID = int(request.GET['selectSub'].encode('utf-8'))
+
+    print "~~~~~~~~~~~~~~", classroomID, subjectID
+
+    scoreQuery = models.Score.objects.filter(subject__id=subjectID, student__classroom_id=classroomID,
+                                             scoreRule__isCount=1)
+    # titleList = models.Score.objects.values("title").distinct()
+    # titleList = models.Score.objects.values("scoreRule__title").distinct()
+    studentIdList = models.Classroom.objects.filter(id=classroomID).values("student__id")
+
+    hasStuID = []
+    for stuID in studentIdList:
+        sumScore = 0
+        for score in scoreQuery:
+            if score.student.id == stuID['student__id']:
+                if stuID['student__id'] not in hasStuID:
+                    print "------------------"
+                    studentScore.append(score.student.name)
+                    hasStuID.append(stuID['student__id'])
+                # 在移动API中可以返回json格式
+                # studentScore.append({score.title:score.score})
+                if score.scoreRule.title not in titleList:
+                    titleList.append(score.scoreRule.title)
+                studentScore.append(int(score.score))
+                sumScore = sumScore + int(score.score)
+            else:
+                pass
+                # print "++++++++++++++++++++"
+
+        print '+++++++', studentScore
+        studentScore.append(sumScore)
+        scoreList.append(studentScore)
+        studentScore = []
+
+    # print '======================',scoreQuery
+    # print '======================scoreList',scoreList
+    titleList.append("总积分")
+
+    return render(request, 'ses/scoreListQueryByStu.html',
+                  {'scoreList': scoreList, 'titleList': titleList, "classrooms": classrooms, 'subjects': subjects,
+                   'selectClassroomID': classroomID, 'selectSubjectID': subjectID, })
 
 def getScoreRules(request):
     # data={}
@@ -1089,3 +1169,41 @@ def toimportData(request):
     return render(request, 'ses/importdata.html',{})
 def importData(request):
     return render(request, 'ses/importdata.html',{})
+
+def addScoreAll(request):
+    selectedClassID = 16
+    selectedSubjectID = 7
+    scoreType = 1
+    selectScoreRuleID = 1
+
+    if 'selectCla' in request.GET:
+        selectedClassID = int(request.GET['selectCla'].encode('utf-8'))
+        # selectedClassID = int(request.GET['selectCla'])
+
+    if 'selectSub' in request.GET:
+        selectedSubjectID = int(request.GET['selectSub'].encode('utf-8'))
+        # selectedSubjectID = int(request.GET['selectSub'])
+
+    if 'selectScoreRule' in request.GET:
+        selectScoreRuleID = int(request.GET['selectScoreRule'].encode('utf-8'))
+        # selectedSubjectID = int(request.GET['selectSub'])
+
+    if 'type' in request.GET:
+        scoreType = int(request.GET['type'].encode('utf-8').strip())
+        # scoreType = int(request.GET['type'].strip())
+
+    print u'selectedClassID,selectedSubjectID=', selectedClassID, selectedSubjectID
+
+    # selectedSubject = models.Subject.objects.get(id=selectedSubjectID)
+    scoreList = models.Score.objects.filter(subject__id=selectedSubjectID, student__classroom__id=selectedClassID,
+                                     scoreRule__id=selectScoreRuleID)
+    if scoreType == 1:
+        for score in scoreList:
+            score.score += 5
+            score.save()
+    elif scoreType == 2:
+        for score in scoreList:
+            score.score -= 5
+            score.save()
+
+    return HttpResponseRedirect('/ses/index?selectCla='+str(selectedClassID)+"&selectSub=" +str(selectedSubjectID)+"&selectScoreRule=" +str(selectScoreRuleID))
