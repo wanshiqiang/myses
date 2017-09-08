@@ -104,11 +104,13 @@ class Student(models.Model):
     stuNO = models.IntegerField()
     classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE)
     subjects = models.ManyToManyField(Subject, through='Score')
+    groupid = models.IntegerField()
+    isHeadman = models.IntegerField()
 
 
     @classmethod
-    def create(cls,name,number,pwd,stuNO,classroom):
-        student = cls(name= name ,number=number,pwd= pwd,stuNO=stuNO,classroom=classroom)
+    def create(cls,name,number,pwd,stuNO,classroom,groupid,isHeadman):
+        student = cls(name= name ,number=number,pwd= pwd,stuNO=stuNO,classroom=classroom,groupid=groupid,isHeadman=isHeadman)
         return student
 
 
@@ -203,10 +205,12 @@ class Seat(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE,related_name="STUDENT")
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE,related_name="SUBJECT")
     seatNo = models.IntegerField()
+    groupid = models.IntegerField()
+    isHeadman = models.IntegerField()
 
     @classmethod
-    def create(cls,student,subject,seatNo):
-        seat = cls(student=student,subject=subject,seatNo=seatNo)
+    def create(cls,student,subject,seatNo,groupid,isHeadman):
+        seat = cls(student=student,subject=subject,seatNo=seatNo,groupid=groupid,isHeadman=isHeadman)
         return seat
 
     def __unicode__(self):

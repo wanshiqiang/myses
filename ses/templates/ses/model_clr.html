@@ -267,6 +267,12 @@
             top:50%;
             font-size: 1vw;
         }
+        .isheadman{
+            position:absolute;
+            left:25%;
+            top:50%;
+            font-size: 1vw;
+        }
 
 
         #selectCla_Sub{
@@ -402,6 +408,12 @@
         <div class="stuname">
             {{seat.student.name}}
         </div>
+        <div class="isheadman">
+            {% ifequal seat.isHeadman 1 %}
+                ★
+            {% endifequal %}
+        </div>
+
         {% for score in scores%}
             {% ifequal seat.student.id score.student.id %}
                 <div class="stuscore">

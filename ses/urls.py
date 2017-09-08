@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^editSeat/$', views.editSeat),
     url(r'^searchSeat/$', views.index),
     url(r'^changeSeat/$', views.changeSeat),
+    url(r'^setHeadman/$', views.setHeadman),
     url(r'^editScore/$', views.editScore),
     url(r'^login/$', views.login),
     url(r'^logout/$', views.logout),

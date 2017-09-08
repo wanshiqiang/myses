@@ -251,6 +251,12 @@
             font-size: 1vw;
 
         }
+        .isheadman{
+            position:absolute;
+            left:5%;
+            top:50%;
+            font-size: 1vw;
+        }
 
         .stuscore{
             border: 1px green solid;
@@ -402,6 +408,12 @@
         <div id="col{{forloop.counter}}" style="border: 1px blue solid;">
             {{seatByRowCol.colIndex}}
             <br>{{seatByRowCol.seat.seatNo}}
+        </div>
+
+        <div class="isheadman">
+            {% ifequal seat.student.isHeadman 1 %}
+                ★
+            {% endifequal %}
         </div>
 
 

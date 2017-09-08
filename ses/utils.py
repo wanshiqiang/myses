@@ -85,6 +85,9 @@ def saveStudentDataFromExcel(filename):
         student.number = int(studentLine[1])
         student.pwd = int(studentLine[2])
         student.stuNO = studentLine[3]
+        #作为默认的分组号和是否组长设置
+        student.groupid = int(studentLine[5])
+        student.isHeadman = int(studentLine[6])
         print '===============', student.number
         if len(models.Student.objects.filter(number=student.number)) == 0:
             classroom = models.Classroom.objects.filter(name=studentLine[4])
@@ -103,6 +106,8 @@ def saveStudentDataFromExcel(filename):
                         seat.student = student
                         seat.subject = course.subject
                         seat.seatNo = student.stuNO
+                        seat.groupid = int(studentLine[5])
+                        seat.isHeadman = int(studentLine[6])
                         seat.save()
                     # 查询这个学生所在subject的所有评分标准,并添加积分=0
                     scoreRuleNoList = models.Score.objects.values_list('scoreRule__id').filter(

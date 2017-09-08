@@ -355,6 +355,36 @@ def changeSeat(request):
     # data['message'] = '更新页面吧'
     return HttpResponse(json.dumps(data), content_type="application/json")
 
+def setHeadman(request):
+    selectedClassID = 16
+    selectedSubjectID = 7
+    stuNum = 0
+
+    if 'selectCla' in request.GET:
+        selectedClassID = int(request.GET['selectCla'].encode('utf-8'))
+
+    if 'selectSub' in request.GET:
+        selectedSubjectID = int(request.GET['selectSub'].encode('utf-8'))
+
+    if 'stuNum' in request.GET:
+        # stuNum = int(request.GET['stuNum'].encode('utf-8'))
+        stuNum = request.GET['stuNum'].encode('utf-8').strip()
+
+    seats = models.Seat.objects.filter(subject__id=selectedSubjectID, student__classroom__id=selectedClassID,student__number= stuNum)
+
+    print '=------=-=-=-=-=-=-===============',selectedClassID,selectedSubjectID,stuNum
+    print '=------=-=-=-=-=-=-===============',seats
+    if seats:
+        seat =seats[0]
+        if seat.isHeadman ==0 :
+            seat.isHeadman = 1
+            seat.save()
+        elif seat.isHeadman ==1 :
+            seat.isHeadman = 0
+            seat.save()
+
+    return HttpResponseRedirect('/ses/editSeat?selectCla='+str(selectedClassID)+'&selectSub='+str(selectedSubjectID))
+
 
 def editScore(request):
     data = {}
@@ -1110,6 +1140,9 @@ def addClassroom(request):
                 seat.student = student
                 seat.subject = course.subject
                 seat.seatNo = student.stuNO
+                #组号和是否组长默认按照student表中的设置
+                seat.groupid = student.groupid
+                seat.isHeadman = student.isHeadman
                 seat.save()
                 print '============add seat by course=================', seat
 

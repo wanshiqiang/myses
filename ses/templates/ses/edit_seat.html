@@ -46,16 +46,21 @@
 
 
           $(".students").click(function(){
-            //alert($(this).attr("id"));
+            //selectCla = $("#selectedClassID").text();
+            //selectSub = $("#selectedSubjectID").text();
+            //stuNum = $(this).children("div[class='stuscore']").text();
 
-            <!--$("#selected1").text($("#selected2").text());-->
-            <!--$("#selected2").text($(this).children('div.stuname').text());-->
-
+            //alert("设置"+$(this).children("div[class='stuname']").text()+"为组长");
+            //window.location.replace("/ses/setHeadman?selectCla="+selectCla+"&selectSub="+selectSub+"&stuNum="+stuNum);
           });
 
           $(".students").dblclick(function(){
-            //alert($(this).attr("id"));
-            <!--$("#selected2").text($(this).children('div.stuname').text())-->
+            selectCla = $("#selectedClassID").text();
+            selectSub = $("#selectedSubjectID").text();
+            stuNum = $(this).children("div[class='stuscore']").text();
+
+            //alert("设置"+$(this).children("div[class='stuname']").text()+"为组长");
+            window.location.replace("/ses/setHeadman?selectCla="+selectCla+"&selectSub="+selectSub+"&stuNum="+stuNum);
           });
 
 
@@ -114,7 +119,12 @@
             //left:30px;
             display:none;
         }
-
+        .isheadman{
+            position:absolute;
+            left:5%;
+            top:50%;
+            font-size: 1vw;
+        }
         .stuscore{
             border: 1px red solid;
             position:absolute;
@@ -225,6 +235,11 @@
         </div>
         <div class="stuname">
             {{seat.student.name}}
+        </div>
+        <div class="isheadman">
+            {% ifequal seat.isHeadman 1 %}
+                ★
+            {% endifequal %}
         </div>
         <div class="stuscore">
             {{seat.student.number}}
